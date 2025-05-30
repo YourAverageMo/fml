@@ -1,0 +1,22 @@
+# Task 001: Setup & CLI Parsing
+
+**Priority:** High
+
+**Description:**
+Initialize the Python project environment and implement the command-line argument parsing for the `fml` application. This task ensures the application can be invoked from the terminal with a natural language query and correctly captures the input.
+
+**Dependencies:**
+- None
+
+**Implementation Details:**
+- Initialize a Python project using `uv init` or `python -m venv`.
+- Create the main application entry point (e.g., `fml.py` or `main.py`).
+- Use Python's built-in `argparse` module to:
+    - Define an argument for the user's natural language query.
+    - Handle cases where no query is provided, displaying a helpful usage message.
+    - Ensure quotes are not strictly required for the query (argparse handles this by default if the argument is defined correctly).
+
+**Test Strategy:**
+- Run `python fml.py "test query"` and verify the query is correctly captured.
+- Run `python fml.py` (without arguments) and verify the usage message is displayed.
+- Test with queries containing spaces and special characters to ensure correct parsing.

@@ -1,0 +1,20 @@
+# Task 005: Clipboard Integration
+
+**Priority:** Medium
+
+**Description:**
+Implement the functionality to automatically copy the generated CLI command to the user's system clipboard. A confirmation message will be displayed to the user after the command is successfully copied.
+
+**Dependencies:**
+- Task 004
+
+**Implementation Details:**
+- Install the `pyperclip` library (`pip install pyperclip` or `uv add pyperclip`).
+- Implement a function or method to take the generated command string and copy it to the clipboard using `pyperclip.copy()`.
+- After successful copying, display a confirmation message to the terminal, such as "(command copied to clipboard)".
+- Consider potential cross-platform dependencies for `pyperclip` (e.g., `xclip`/`xsel` on Linux) and document them if necessary.
+
+**Test Strategy:**
+- Run the application with a test query that generates a command.
+- After the output is displayed, verify that the command is present in the system clipboard by attempting to paste it into another application (e.g., a text editor or another terminal).
+- Verify the confirmation message is displayed.

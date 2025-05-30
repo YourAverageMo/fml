@@ -1,0 +1,24 @@
+# Task 004: Response Parsing & Display
+
+**Priority:** Medium
+
+**Description:**
+Implement the logic to parse the structured JSON response received from the Google Gemini API. This task also includes formatting and displaying the extracted explanation, flags, and the complete command in a clean, readable format in the terminal.
+
+**Dependencies:**
+- Task 003
+
+**Implementation Details:**
+- Within the core logic, implement a function or class method responsible for parsing the JSON string received from the `GeminiService`.
+- Validate the JSON structure against the `Conceptual Data Model` defined in `prd.md` (Section 6).
+- Implement error handling for cases where the AI response is not in the expected format or is missing key information. Inform the user of such issues.
+- Implement a function to format and print the parsed data to the terminal, adhering to the specified format in `prd.md` (Section 3.4 "Terminal Display"):
+    1. Brief 2-3 sentence explanation.
+    2. Line break.
+    3. Each flag and its description on a new line.
+    4. The full, complete command on its own line.
+
+**Test Strategy:**
+- Provide mock JSON responses (both valid and invalid/incomplete) to the parsing logic and verify correct parsing or error handling.
+- Verify that the terminal output matches the specified format and is easily readable.
+- Test with responses that have an empty `flags` array.

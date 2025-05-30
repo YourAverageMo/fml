@@ -1,0 +1,19 @@
+# Task 002: API Key & Basic Config
+
+**Priority:** High
+
+**Description:**
+Implement the logic to securely access the Google Gemini API key from environment variables. This task includes adding error handling to inform the user if the API key is not set.
+
+**Dependencies:**
+- Task 001
+
+**Implementation Details:**
+- Use Python's `os.environ` to read the `GEMINI_API_KEY` environment variable.
+- Implement a check to verify if the `GEMINI_API_KEY` is present.
+- If the `GEMINI_API_KEY` is not found, display a clear error message instructing the user on how to set it.
+- Consider creating a dedicated configuration module or function to encapsulate API key retrieval.
+
+**Test Strategy:**
+- Run the application without setting `GEMINI_API_KEY` and verify the appropriate error message is displayed.
+- Set `GEMINI_API_KEY` to a dummy value and verify the application proceeds without an error related to the key.

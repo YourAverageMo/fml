@@ -1,0 +1,27 @@
+# Task 007: Cross-Platform Testing
+
+**Priority:** Low
+
+**Description:**
+Perform comprehensive testing of the `fml` application across different operating systems (macOS, Windows, and Linux) to ensure all core features function correctly and consistently.
+
+**Dependencies:**
+- Task 005
+- Task 006
+
+**Implementation Details:**
+- Set up test environments for macOS, Windows, and a common Linux distribution (e.g., Ubuntu).
+- Execute the application with a variety of test queries on each platform.
+- Verify the following on each platform:
+    - CLI argument parsing works correctly.
+    - API key management functions as expected.
+    - Gemini API integration successfully retrieves responses.
+    - Response parsing and terminal display are accurate and readable.
+    - Clipboard integration successfully copies the command.
+    - Error handling messages are displayed correctly for various scenarios.
+- Document any platform-specific issues encountered and propose solutions (e.g., `pyperclip` dependencies on Linux).
+
+**Test Strategy:**
+- Manual testing on each target operating system.
+- Use a checklist of features to verify for each platform.
+- Record any discrepancies or bugs found, along with system details.

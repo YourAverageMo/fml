@@ -1,0 +1,23 @@
+# Task 003: Gemini API Integration
+
+**Priority:** High
+
+**Description:**
+Integrate the Google Gemini API into the application. This involves installing the necessary SDK, implementing the function to send user queries to the API, and developing the initial system prompt to guide the AI's response.
+
+**Dependencies:**
+- Task 002
+
+**Implementation Details:**
+- Install the `google-generativeai` Python SDK (`pip install google-generativeai` or `uv add google-generativeai`).
+- Create an `AIService` abstraction (e.g., a class or interface) as per `systemPatterns.md`.
+- Implement a concrete `GeminiService` class that inherits from `AIService` (or implements its methods).
+- Within `GeminiService`, implement a method to send the user's query to the Gemini API.
+- Craft the initial system prompt for Gemini as detailed in Section 5 of `prd.md` ("Prompt Engineering Guidance for LLM (Gemini)"). Ensure it mandates the structured JSON output.
+- Handle potential API errors (e.g., network issues, authentication failure, rate limits) gracefully by informing the user.
+
+**Test Strategy:**
+- Send a simple query (e.g., "git status") to the Gemini API and verify a response is received.
+- Verify that the response, even if not fully parsed yet, appears to be in the expected JSON format.
+- Simulate API key absence (after Task 002 is done) and verify the error handling.
+- (Future: Test with various queries to refine prompt and ensure consistent JSON output.)

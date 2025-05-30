@@ -1,0 +1,28 @@
+# Task 006: Error Handling & Refinement
+
+**Priority:** Medium
+
+**Description:**
+Implement comprehensive error handling for API calls and refine the AI prompt and response parsing based on initial testing and observed inconsistencies. This task ensures the application is robust and provides helpful feedback to the user in case of issues.
+
+**Dependencies:**
+- Task 003
+- Task 004
+
+**Implementation Details:**
+- Enhance error handling for `GeminiService` to gracefully manage:
+    - Network issues (e.g., connection errors, timeouts).
+    - Authentication failures (e.g., invalid API key).
+    - API rate limits or quota errors.
+    - Other generic API exceptions.
+- For each error type, display a clear, user-friendly message to the terminal.
+- Based on testing of Task 003 and Task 004, iteratively refine the system prompt for Google Gemini (as described in `prd.md` Section 5) to improve:
+    - Consistency of structured JSON output.
+    - Accuracy and relevance of generated commands.
+    - Conciseness of explanations and flag descriptions.
+- Refine the JSON parsing logic in Task 004 to be more resilient to minor variations or unexpected content from the AI, while still enforcing the core structure.
+
+**Test Strategy:**
+- Simulate various error conditions (e.g., disable network, use an invalid API key, trigger rate limits if possible) and verify appropriate error messages are displayed.
+- Conduct extensive testing with a diverse set of natural language queries to identify prompt refinement needs.
+- Verify that the application handles cases where the AI might return an empty `command` or `flags` array gracefully.
