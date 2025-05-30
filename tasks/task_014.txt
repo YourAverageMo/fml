@@ -1,0 +1,25 @@
+# Task 014: Test Terminal Display
+
+**Priority:** Low
+
+**Description:**
+Write tests to verify that the parsed information from the AI is formatted and displayed correctly in the terminal, adhering to the specified output format.
+
+**Dependencies:**
+- Task 013
+
+**Implementation Details:**
+- In `tests/test_fml.py` (or a dedicated `tests/test_display.py`), write test cases for the terminal display logic.
+- Use `pytest`'s `capsys` fixture to capture `sys.stdout` and verify the printed output.
+- Provide mock parsed data (explanation, flags, command) as input to the display function.
+- Test cases should verify:
+    - The brief explanation is printed first.
+    - A line break follows the explanation.
+    - Each flag and its description are on a new line.
+    - The full command is on its own line at the end.
+    - The output is readable and correctly formatted.
+    - Handling of cases with an empty `flags` array.
+
+**Test Strategy:**
+- Run `uv run pytest tests/test_fml.py` (or relevant test file) to execute the tests.
+- Visually inspect the captured output in test reports if `capsys` output is logged, or assert against expected string patterns.

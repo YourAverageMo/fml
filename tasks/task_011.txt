@@ -1,0 +1,19 @@
+# Task 011: Mock AI Service
+
+**Priority:** Medium
+
+**Description:**
+Create a mocking strategy or a mock implementation for the AI service. This will allow for isolated testing of the AI interaction logic and other components that depend on the AI service without making actual external API calls.
+
+**Dependencies:**
+- Task 008
+
+**Implementation Details:**
+- Define an `AIService` interface (e.g., an abstract base class) if not already done in Task 003.
+- Create a `MockAIService` class that implements the `AIService` interface.
+- The `MockAIService` should be configurable to return predefined responses (e.g., valid JSON, invalid JSON, error states) based on test scenarios.
+- Use `unittest.mock.patch` or `pytest`'s `monkeypatch` fixture to substitute the real `GeminiService` with `MockAIService` during testing.
+
+**Test Strategy:**
+- Write a simple test that instantiates `MockAIService` and calls its methods, verifying that it returns the expected mock data.
+- (This task primarily focuses on setting up the mock; its effectiveness will be fully realized in subsequent tasks that use it.)

@@ -1,0 +1,23 @@
+# Task 010: Test API Key Management
+
+**Priority:** High
+
+**Description:**
+Write unit tests for the API key retrieval and error handling logic to verify secure access and proper error messages when the `GEMINI_API_KEY` is missing.
+
+**Dependencies:**
+- Task 008
+
+**Implementation Details:**
+- In `tests/test_fml.py` (or a new `tests/test_config.py` if a separate config module is created), write test cases for API key management.
+- Use `unittest.mock.patch.dict` to temporarily modify `os.environ` for testing purposes (e.g., to simulate missing or present API keys).
+- Use `pytest.raises` to assert that specific exceptions are raised when the API key is missing.
+- Use `pytest`'s `capsys` fixture to capture `sys.stderr` to verify error messages.
+- Test cases should cover:
+    - Application exits with an error if `GEMINI_API_KEY` is not set.
+    - The correct error message is displayed when `GEMINI_API_KEY` is missing.
+    - Application proceeds without error when `GEMINI_API_KEY` is set.
+
+**Test Strategy:**
+- Run `uv run pytest tests/test_fml.py` (or relevant test file) to execute the tests.
+- Verify all test cases pass, confirming API key management behaves as expected.

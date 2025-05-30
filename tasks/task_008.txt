@@ -1,0 +1,19 @@
+# Task 008: Setup Testing Environment
+
+**Priority:** High
+
+**Description:**
+Install `pytest` and configure the project to support testing. This includes creating a `tests/` directory and initial test files.
+
+**Dependencies:**
+- None
+
+**Implementation Details:**
+- Install `pytest` (`uv add pytest`).
+- Create a `tests/` directory at the project root.
+- Create an empty `tests/__init__.py` file to make it a Python package.
+- Create a basic `tests/test_fml.py` file with a placeholder test to confirm the setup.
+- Add `pytest` to `pyproject.toml` as a development dependency.
+
+**Test Strategy:**
+- Run `uv run pytest` (or `pytest` if installed globally) from the project root and ensure tests are discovered and run successfully (even if the placeholder test fails initially).

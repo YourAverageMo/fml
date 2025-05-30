@@ -1,0 +1,25 @@
+# Task 013: Test Response Parsing
+
+**Priority:** Medium
+
+**Description:**
+Write unit tests for the JSON response parsing logic. This task ensures that the application correctly extracts data from valid AI responses and gracefully handles cases where the response is malformed or incomplete.
+
+**Dependencies:**
+- Task 008
+
+**Implementation Details:**
+- In `tests/test_fml.py` (or a dedicated `tests/test_parser.py`), write test cases for the response parsing component.
+- Provide various mock JSON strings as input to the parser:
+    - Valid JSON matching the `Conceptual Data Model` (Section 6 of `prd.md`).
+    - JSON with missing required keys.
+    - JSON with incorrect data types for values.
+    - Non-JSON strings.
+    - JSON with an empty `flags` array.
+- Verify that the parser:
+    - Successfully extracts `explanation`, `flags`, and `command` from valid input.
+    - Raises appropriate errors or handles gracefully when input is invalid or incomplete.
+
+**Test Strategy:**
+- Run `uv run pytest tests/test_fml.py` (or relevant test file) to execute the tests.
+- Verify all test cases pass, confirming the response parsing logic is robust.

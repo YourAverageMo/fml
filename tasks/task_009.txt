@@ -1,0 +1,22 @@
+# Task 009: Test CLI Parsing
+
+**Priority:** High
+
+**Description:**
+Write unit tests for the command-line argument parsing logic in `fml.py` to ensure correct handling of user queries and the display of helpful usage messages when no query is provided.
+
+**Dependencies:**
+- Task 008
+
+**Implementation Details:**
+- In `tests/test_fml.py`, write test cases for `fml.py`'s argument parsing.
+- Use `unittest.mock.patch` or `pytest`'s `capsys` fixture to capture `sys.stdout` and `sys.stderr` to verify printed output (e.g., help messages).
+- Test cases should cover:
+    - Successful parsing of a query string.
+    - Display of the help message when no query is provided.
+    - Correct exit code when no query is provided.
+    - Handling of queries with spaces and special characters.
+
+**Test Strategy:**
+- Run `uv run pytest tests/test_fml.py` to execute the tests.
+- Verify all test cases pass, confirming the CLI parsing behaves as expected.

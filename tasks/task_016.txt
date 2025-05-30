@@ -1,0 +1,29 @@
+# Task 016: Integration Tests
+
+**Priority:** Low
+
+**Description:**
+Develop higher-level integration tests that combine multiple components of the `fml` application (e.g., CLI parsing, mocked AI interaction, response parsing, display, and clipboard integration) to verify end-to-end flows.
+
+**Dependencies:**
+- Task 009
+- Task 010
+- Task 012
+- Task 013
+- Task 014
+- Task 015
+
+**Implementation Details:**
+- In `tests/test_fml.py` (or a new `tests/integration_tests.py`), create integration test cases.
+- Use `unittest.mock.patch` or `pytest`'s `monkeypatch` to mock external dependencies like the actual Gemini API calls and `pyperclip` to ensure tests are isolated from external services.
+- Simulate a full application run by calling the `main()` function of `fml.py` with various arguments.
+- Verify the complete output in `sys.stdout` and `sys.stderr` using `capsys`.
+- Verify that the mocked `pyperclip.copy()` was called with the expected command.
+- Test cases should cover:
+    - A successful end-to-end flow with a valid query.
+    - An end-to-end flow with a missing API key (verifying error message).
+    - An end-to-end flow with a mocked malformed AI response (verifying error handling).
+
+**Test Strategy:**
+- Run `uv run pytest tests/integration_tests.py` (or relevant test file) to execute the integration tests.
+- Verify all integration test cases pass, confirming the overall application flow.

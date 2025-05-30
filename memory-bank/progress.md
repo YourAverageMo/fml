@@ -11,15 +11,28 @@
 
 ## 2. What's left to build
 
-The core MVP features as outlined in the PRD, Phase 1:
+The core MVP features as outlined in the PRD, Phase 1, and the newly defined Testing Phase tasks:
 
-- Setup & CLI Parsing
+**Phase 1: MVP - Core Functionality**
+
 - API Key & Basic Config
 - Gemini API Integration
 - Response Parsing & Display
 - Clipboard Integration
 - Error Handling & Refinement
 - Cross-Platform Testing
+
+**Testing Phase**
+
+- Setup Testing Environment
+- Test CLI Parsing
+- Test API Key Management
+- Mock AI Service
+- Test AI Interaction (Mocked)
+- Test Response Parsing
+- Test Terminal Display
+- Test Clipboard Integration
+- Integration Tests
 
 ## 3. Current status
 
@@ -35,7 +48,21 @@ Tasks are managed as individual Markdown files in the `tasks/` directory (`task_
 
 **Task Queue:**
 
-- 002, 003, 004, 005, 006, 007
+- Task 002: API Key & Basic Config
+- Task 009: Test CLI Parsing
+- Task 003: Gemini API Integration
+- Task 004: Response Parsing & Display
+- Task 005: Clipboard Integration
+- Task 006: Error Handling & Refinement
+- Task 007: Cross-Platform Testing
+- Task 008: Setup Testing Environment
+- Task 010: Test API Key Management
+- Task 011: Mock AI Service
+- Task 012: Test AI Interaction (Mocked)
+- Task 013: Test Response Parsing
+- Task 014: Test Terminal Display
+- Task 015: Test Clipboard Integration
+- Task 016: Integration Tests
 
 **Completed Tasks:**
 

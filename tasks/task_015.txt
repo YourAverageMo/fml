@@ -1,0 +1,19 @@
+# Task 015: Test Clipboard Integration
+
+**Priority:** Low
+
+**Description:**
+Write tests for the clipboard functionality to ensure the generated command is successfully copied to the user's system clipboard, and that a confirmation message is displayed.
+
+**Dependencies:**
+- Task 008
+
+**Implementation Details:**
+- In `tests/test_fml.py` (or a dedicated `tests/test_clipboard.py`), write test cases for clipboard integration.
+- Use `unittest.mock.patch` or `pytest`'s `monkeypatch` fixture to mock `pyperclip.copy()` and `pyperclip.paste()` to avoid actual clipboard interaction during tests.
+- Verify that `pyperclip.copy()` is called with the correct command string.
+- Use `pytest`'s `capsys` fixture to capture `sys.stdout` and verify the "(command copied to clipboard)" message is displayed.
+
+**Test Strategy:**
+- Run `uv run pytest tests/test_fml.py` (or relevant test file) to execute the tests.
+- Verify all test cases pass, confirming the clipboard integration behaves as expected with mocked interactions.

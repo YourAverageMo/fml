@@ -1,0 +1,24 @@
+# Task 012: Test AI Interaction (Mocked)
+
+**Priority:** Medium
+
+**Description:**
+Write tests for the AI interaction logic (e.g., `GeminiService` or the module responsible for sending queries to the AI) using the mocked AI service. This ensures that the application correctly prepares queries and handles responses from the AI, without making actual external API calls.
+
+**Dependencies:**
+- Task 011
+
+**Implementation Details:**
+- In `tests/test_fml.py` (or a dedicated `tests/test_ai_service.py`), write test cases for the AI interaction component.
+- Use the `MockAIService` (from Task 011) to simulate various AI responses:
+    - Valid structured JSON responses.
+    - Invalid or malformed JSON responses.
+    - Responses simulating API errors (e.g., rate limits, authentication errors).
+- Verify that the AI interaction logic correctly:
+    - Formats the query before sending it to the AI.
+    - Processes the AI's response (even if just passing it to the parser).
+    - Handles different types of AI responses (success, various errors).
+
+**Test Strategy:**
+- Run `uv run pytest tests/test_fml.py` (or relevant test file) to execute the tests.
+- Verify all test cases pass, confirming the AI interaction logic behaves as expected with mocked responses.

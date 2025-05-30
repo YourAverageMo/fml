@@ -2,23 +2,24 @@
 
 ## 1. Current Work Focus
 
-The current focus is on setting up the foundational components of the `fml` application, specifically implementing API key management and integrating with the Google Gemini API, as outlined in the MVP (Minimum Viable Product) phase of the PRD.
+The current focus is on implementing tests for the `fml` project, starting with planning out the testing tasks.
 
 ## 2. Recent Changes
 
 - Initial memory bank files (`projectbrief.md`, `productContext.md`, `systemPatterns.md`, `techContext.md`, `activeContext.md`, `progress.md`) have been created based on the `prd.md`.
 - The Python project environment has been initialized using `uv init`.
 - The main application entry point (`fml.py`) has been created with basic CLI argument parsing implemented (Task 001 completed).
+- All MVP development tasks (Task 001-007) have been created and added to the task queue.
+- The project changes have been committed and merged to `main`.
+- A new branch `add/tests` has been created for testing efforts.
 
 ## 3. Next Steps
 
 The immediate next steps involve:
-- Implementing API key management (Task 002).
-- Integrating with the Google Gemini API (Task 003).
-- Developing response parsing and terminal display logic (Task 004).
-- Integrating clipboard functionality (Task 005).
-- Implementing error handling and refinement (Task 006).
-- Performing cross-platform testing (Task 007).
+- Planning out the testing tasks for the project.
+- Creating individual task files for testing.
+- Updating `progress.md` with the new testing tasks.
+- Implementing tests for existing functionalities, starting with CLI parsing and API key management.
 
 ## 4. Active Decisions and Considerations
 
