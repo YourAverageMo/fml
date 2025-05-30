@@ -35,6 +35,7 @@
 
 ## 5. Tool Usage Patterns
 
+- **`uv run`:** Used for executing Python scripts and commands within the project's virtual environment.
 - **`argparse`:** Used for robust and standard CLI argument parsing.
 - **`os.environ`:** Standard Python approach for secure environment variable access.
 - **`google-generativeai` SDK:** Direct interaction with the Gemini API via its official SDK.

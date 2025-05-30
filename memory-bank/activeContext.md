@@ -2,23 +2,23 @@
 
 ## 1. Current Work Focus
 
-The current focus is on initializing the project and setting up the foundational components as outlined in the MVP (Minimum Viable Product) phase of the PRD. This includes establishing the project structure, implementing CLI argument parsing, integrating with the Google Gemini API, handling API key management, parsing AI responses, displaying output, and integrating with the system clipboard.
+The current focus is on setting up the foundational components of the `fml` application, specifically implementing API key management and integrating with the Google Gemini API, as outlined in the MVP (Minimum Viable Product) phase of the PRD.
 
 ## 2. Recent Changes
 
-- Initial memory bank files (`projectbrief.md`, `productContext.md`, `systemPatterns.md`, `techContext.md`) have been created based on the `prd.md`.
+- Initial memory bank files (`projectbrief.md`, `productContext.md`, `systemPatterns.md`, `techContext.md`, `activeContext.md`, `progress.md`) have been created based on the `prd.md`.
+- The Python project environment has been initialized using `uv init`.
+- The main application entry point (`fml.py`) has been created with basic CLI argument parsing implemented (Task 001 completed).
 
 ## 3. Next Steps
 
 The immediate next steps involve:
-- Creating the `progress.md` file to track task progress.
-- Generating individual task files (`tasks/task_XXX.txt`) based on the MVP milestones defined in the PRD.
-- Setting up the Python project environment (e.g., `uv init`).
-- Implementing CLI argument parsing.
-- Implementing API key management.
-- Integrating with the Google Gemini API.
-- Developing response parsing and terminal display logic.
-- Integrating clipboard functionality.
+- Implementing API key management (Task 002).
+- Integrating with the Google Gemini API (Task 003).
+- Developing response parsing and terminal display logic (Task 004).
+- Integrating clipboard functionality (Task 005).
+- Implementing error handling and refinement (Task 006).
+- Performing cross-platform testing (Task 007).
 
 ## 4. Active Decisions and Considerations
 

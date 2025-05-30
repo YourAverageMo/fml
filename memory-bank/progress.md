@@ -35,11 +35,12 @@ Tasks are managed as individual Markdown files in the `tasks/` directory (`task_
 
 **Task Queue:**
 
-- 001, 002, 003, 004, 005, 006, 007
+- 002, 003, 004, 005, 006, 007
 
 **Completed Tasks:**
 
 - Task 000: Initialize Memory Bank (Documentation)
+- Task 001: Setup & CLI Parsing
 
 ## 6. Known issues
 
