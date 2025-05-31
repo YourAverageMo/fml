@@ -48,14 +48,10 @@ Tasks are managed as individual Markdown files in the `tasks/` directory (`task_
 
 **Task Queue:**
 
-- Task 002: API Key & Basic Config
-- Task 009: Test CLI Parsing
-- Task 003: Gemini API Integration
 - Task 004: Response Parsing & Display
 - Task 005: Clipboard Integration
 - Task 006: Error Handling & Refinement
 - Task 007: Cross-Platform Testing
-- Task 008: Setup Testing Environment
 - Task 010: Test API Key Management
 - Task 011: Mock AI Service
 - Task 012: Test AI Interaction (Mocked)
@@ -68,6 +64,10 @@ Tasks are managed as individual Markdown files in the `tasks/` directory (`task_
 
 - Task 000: Initialize Memory Bank (Documentation)
 - Task 001: Setup & CLI Parsing
+- Task 008: Setup Testing Environment
+- Task 009: Test CLI Parsing
+- Task 002: API Key & Basic Config
+- Task 003: Gemini API Integration
 
 ## 6. Known issues
 
