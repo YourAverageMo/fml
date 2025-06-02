@@ -44,10 +44,11 @@ Tasks are managed as individual Markdown files in the `tasks/` directory (`task_
 
 ## 5. Current tasks, task queue, and completed tasks
 
-**Current Task:** None
+**Current Task:** Task 017: Dynamic AI Service and Model Selection
 
 **Task Queue:**
 
+- Task 017: Dynamic AI Service and Model Selection
 - Task 004: Response Parsing & Display
 - Task 005: Clipboard Integration
 - Task 006: Error Handling & Refinement

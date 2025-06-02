@@ -1,0 +1,33 @@
+# Task 017: Dynamic AI Service and Model Selection
+
+**Priority:** High
+
+**Description:**
+Implement dynamic selection of AI services and models based on a CLI flag (`-m` or `--model`). The flag will accept a model name (e.g., `gemini-1.5-flash`). The application should correctly identify and use the specified AI service and model, dynamically determining API keys and system prompts.
+
+**Dependencies:**
+- Existing modular AI service architecture (`fml/ai_service.py`, `fml/ai_providers/gemini_service.py`, `fml/schemas.py`).
+
+**Implementation Details:**
+- **Define Supported Models in AI Provider:**
+    - In `fml/ai_providers/gemini_service.py`, define an `Enum` (e.g., `GeminiModels`) for user-facing model names and their corresponding API model strings.
+    - Add a static method to `GeminiService` to easily retrieve the list of supported user-facing model names.
+- **Modify `fml/ai_service.py`:**
+    - Update the `AIService` abstract base class to include a `model` parameter in its `__init__` method.
+    - Add an abstract static method `get_supported_models()` to `AIService` that concrete implementations must provide.
+- **Modify `fml/ai_providers/gemini_service.py`:**
+    - Update `GeminiService` to accept the `model` parameter in its `__init__` and use it with the Gemini API.
+    - Implement the `get_supported_models()` static method to return names from `GeminiModels`.
+    - Add a method to map user-facing model names to actual API model strings.
+- **Modify `fml/__main__.py`:**
+    - Add a new `argparse` argument `-m` or `--model` for the model name, with a default (e.g., `gemini-1.5-flash`).
+    - Implement logic to dynamically select and instantiate the correct AI service based on the provided model name by iterating through available `AIService` implementations and checking `get_supported_models()`.
+    - Dynamically determine the appropriate API key environment variable (e.g., `GEMINI_API_KEY`) and system prompt path based on the selected AI service.
+    - Pass the selected model name to the instantiated AI service.
+
+**Test Strategy:**
+- Run `fml --model gemini-1.5-flash 'query'` and verify the correct service and model are used.
+- Run `fml 'query'` (using the default model) and verify it functions correctly.
+- Test with an unsupported model name and verify an appropriate error message is displayed.
+- Verify that the correct API key environment variable is checked for the selected service.
+- Verify that the correct system prompt path is used for the selected service.
