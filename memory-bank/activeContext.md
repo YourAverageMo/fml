@@ -2,7 +2,7 @@
 
 ## 1. Current Work Focus
 
-The current focus is on implementing tests for the `fml` project, starting with planning out the testing tasks.
+The current focus has shifted to refactoring and modularizing the core application logic, specifically the AI service integration and response handling, to improve extensibility and maintainability. The next immediate step is to re-integrate clipboard functionality and then proceed with testing.
 
 ## 2. Recent Changes
 
@@ -12,10 +12,16 @@ The current focus is on implementing tests for the `fml` project, starting with 
 - All MVP development tasks (Task 001-007) have been created and added to the task queue.
 - The project changes have been committed and merged to `main`.
 - A new branch `add/tests` has been created for testing efforts.
+- **Refactoring & Modularization:**
+  - An `AIService` abstract base class (`fml/ai_service.py`) has been introduced for AI provider abstraction.
+  - `GeminiService` has been moved to `fml/ai_providers/gemini_service.py` and now inherits from `AIService`.
+  - A new `fml/schemas.py` module defines the AI response structure using Pydantic models for robust validation.
+  - A new `fml/output_formatter.py` module handles the formatting and display of AI responses.
 
 ## 3. Next Steps
 
 The immediate next steps involve:
+
 - Planning out the testing tasks for the project.
 - Creating individual task files for testing.
 - Updating `progress.md` with the new testing tasks.
@@ -23,19 +29,20 @@ The immediate next steps involve:
 
 ## 4. Active Decisions and Considerations
 
-- **AI Output Structure:** Strict adherence to the defined JSON structure for AI responses is critical for reliable parsing. Robust error handling for malformed responses is a priority.
+- **AI Output Structure:** Strict adherence to the defined JSON structure for AI responses is critical for reliable parsing, now enforced by Pydantic schemas. Robust error handling for malformed responses remains a priority.
 - **Cross-Platform Compatibility:** All features, especially clipboard integration, must be tested and verified across macOS, Windows, and Linux.
-- **Modularity:** Maintaining the separation of concerns (core logic vs. presentation, AI abstraction) from the outset to facilitate future enhancements.
-- **Prompt Engineering:** The initial system prompt for Gemini will be crucial for consistent and accurate command generation. This will be an iterative process.
+- **Modularity:** The successful implementation of AI service abstraction and separate output formatting reinforces the commitment to a modular architecture, facilitating future enhancements and alternative AI providers.
+- **Prompt Engineering:** The initial system prompt for Gemini remains crucial for consistent and accurate command generation. This will continue to be an iterative process.
 
 ## 5. Important Patterns and Preferences
 
 - **Environment Variables for API Keys:** `GEMINI_API_KEY` will be used for secure API key management.
 - **Python Standard Libraries:** Prioritizing `argparse` for CLI parsing.
-- **External Libraries:** `google-generativeai` and `pyperclip` are the primary external dependencies for MVP.
+- **External Libraries:** `google.genai` (the new SDK), `pyperclip` (to be re-added), and `pydantic` are the primary external dependencies for MVP.
 
 ## 6. Learnings and Project Insights
 
-- The project's success heavily relies on the AI's ability to consistently provide structured and accurate command information.
+- The project's success heavily relies on the AI's ability to consistently provide structured and accurate command information, now significantly improved by Pydantic schema enforcement.
 - Cross-platform compatibility, particularly for clipboard operations, requires careful attention to potential system-level dependencies.
-- A clear, modular architecture will be key to future extensibility, especially for adding new AI providers or a TUI.
+- A clear, modular architecture, now largely implemented for the core AI interaction, is key to future extensibility, especially for adding new AI providers or a TUI.
+- The iterative process of refactoring and testing is crucial for maintaining code health and addressing issues promptly.

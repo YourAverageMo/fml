@@ -8,20 +8,23 @@ The `fml` application will follow a modular architecture, separating concerns to
 graph TD
     A[User Input (CLI)] --> B{CLI Parser (argparse)}
     B --> C[Core Logic]
-    C --> D{AI Service Abstraction}
-    D --> E[Google Gemini Implementation]
-    E --> F[Gemini API]
-    F --> D
-    D --> G[Response Parser]
-    G --> H[Presentation Layer (Terminal Display)]
-    G --> I[Clipboard Integration (pyperclip)]
+    C --> D{AI Service Abstraction (fml/ai_service.py)}
+    D --> E[AI Provider Implementations (fml/ai_providers/)]
+    E --> F[Google Gemini Implementation (fml/ai_providers/gemini_service.py)]
+    F --> G[Gemini API]
+    G --> E
+    E --> D
+    D --> H[AI Command Response (fml/schemas.py)]
+    H --> I[Output Formatter (fml/output_formatter.py)]
+    I --> J[Presentation Layer (Terminal Display)]
+    I --> K[Clipboard Integration (pyperclip)]
 ```
 
 ## 2. Key Technical Decisions
 
-- **Modularity for AI Services:** AI interaction logic will be wrapped in an abstraction layer (e.g., an `AIService` class or interface). This design choice simplifies switching to other AI providers (OpenAI, Ollama) in the future without significant refactoring of the core application logic.
-- **Structured AI Response:** The AI will be prompted to return a structured JSON response. This ensures reliable parsing and extraction of command, explanation, and flag details. Robust error handling will be implemented for malformed or missing AI responses.
-- **Separation of Core Logic and Presentation:** The core logic (AI interaction, command processing, business rules) will be distinct from the presentation layer (terminal output). This facilitates future integration with a Terminal User Interface (TUI) without rewriting the core functionality.
+- **Modularity for AI Services:** AI interaction logic is wrapped in an `AIService` abstract base class. Concrete implementations (e.g., `GeminiService`) reside in `fml/ai_providers/`, simplifying switching to other AI providers (OpenAI, Ollama) without significant refactoring of the core application logic.
+- **Structured AI Response with Pydantic:** The AI is prompted to return a structured JSON response, now strictly enforced and validated using `pydantic` models defined in `fml/schemas.py`. This ensures reliable parsing and extraction of command, explanation, and flag details. Robust error handling is implemented for malformed or missing AI responses.
+- **Separation of Core Logic and Presentation:** The core logic (AI interaction, command processing, business rules) is distinct from the presentation layer (terminal output), now handled by `fml/output_formatter.py`. This facilitates future integration with a Terminal User Interface (TUI) without rewriting the core functionality.
 
 ## 3. Design Patterns in Use
 
@@ -33,11 +36,12 @@ graph TD
 
 - **CLI Parser (`argparse`):** Responsible for capturing user queries from the command line.
 - **Core Logic:** Orchestrates the flow, calling the AI service, parsing its response, and directing output to the presentation and clipboard layers.
-- **AI Service Abstraction:** Defines the interface for interacting with AI models.
-- **Google Gemini Implementation:** Concrete implementation of the `AIService` interface for Google Gemini.
-- **Response Parser:** Extracts and validates data from the AI's structured output.
+- **AI Service Abstraction (`fml/ai_service.py`):** Defines the abstract interface for interacting with AI models.
+- **AI Provider Implementations (`fml/ai_providers/`):** Contains concrete implementations of `AIService` for specific AI providers (e.g., `GeminiService`).
+- **AI Command Response (`fml/schemas.py`):** Defines the `pydantic` data model for the structured AI output, ensuring type safety and validation.
+- **Output Formatter (`fml/output_formatter.py`):** Formats the `AICommandResponse` object into a human-readable string for terminal display.
 - **Presentation Layer:** Formats and displays the command information to the user in the terminal.
-- **Clipboard Integration (`pyperclip`):** Handles copying the generated command to the system clipboard.
+- **Clipboard Integration (`pyperclip`):** Handles copying the generated command to the system clipboard (to be re-added in a future task).
 
 ## 5. Critical Implementation Paths
 

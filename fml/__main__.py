@@ -1,14 +1,16 @@
 import argparse
 import os
 import sys
-from fml.ai_service import GeminiService  # Import the new GeminiService
-# No need for abc, genai, types, errors imports here anymore as they are in ai_service.py
+from fml.ai_providers.gemini_service import GeminiService
+from fml.output_formatter import OutputFormatter
+from fml.ai_service import AIService
 
 
 def main():
     parser = argparse.ArgumentParser(
         description="AI-Powered CLI Command Helper",
-        epilog="Example: fml 'how do i view the git diff for my current branch compared to main?'",
+        epilog=
+        "Example: fml 'how do i view the git diff for my current branch compared to main?'",
     )
     parser.add_argument(
         "query",
@@ -27,27 +29,33 @@ def main():
     # Join the list of query parts into a single string
     full_query = " ".join(args.query)
 
-    print(f"Query received: {full_query}")
-
     # API Key Management
-    gemini_api_key = os.getenv("GEMINI_API_KEY")
-    if not gemini_api_key:
+    api_key = os.getenv("GEMINI_API_KEY")
+    if not api_key:
         print("Error: GEMINI_API_KEY environment variable not set.")
         print(
             "Please set the GEMINI_API_KEY environment variable to your Google Gemini API key."
         )
         sys.exit(1)
 
-    # Initialize GeminiService with the API key and the path to the system prompt
-    system_prompt_path = os.path.join(
-        os.path.dirname(__file__), "prompts", "gemini_system_prompt.txt"
-    )
-    ai_service = GeminiService(
-        api_key=gemini_api_key, system_instruction_path=system_prompt_path
-    )
+    # Initialize AI Service
+    system_prompt_path = os.path.join(os.path.dirname(__file__), "prompts",
+                                      "gemini_system_prompt.txt")
+    ai_service: AIService = GeminiService(api_key=api_key,
+                                          system_instruction_path=system_prompt_path)
 
-    ai_response = ai_service.generate_command(full_query)
-    print(ai_response)
+    # Generate command
+    try:
+        ai_command_response = ai_service.generate_command(full_query)
+    except RuntimeError as e:
+        print(f"Error generating command: {e}")
+        sys.exit(1)
+
+    # Format and display response
+    formatter = OutputFormatter()
+    formatted_output = formatter.format_response(ai_command_response)
+    print(formatted_output)
+
 
 
 if __name__ == "__main__":
