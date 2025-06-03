@@ -8,7 +8,7 @@ The `fml` application will follow a modular architecture, separating concerns to
 graph TD
     A[User Input (CLI)] --> B{CLI Parser (argparse)}
     B --> C[Main Application Logic (fml/__main__.py)]
-    C --> D{Dynamic AI Service Selection}
+    C --> D{_initialize_ai_service function}
     D --> E[AI Service Abstraction (fml/ai_service.py)]
     E --> F[AI Provider Implementations (fml/ai_providers/)]
     F --> G[Google Gemini Implementation (fml/ai_providers/gemini_service.py)]
@@ -27,7 +27,7 @@ graph TD
 - **Dynamic AI Service and Model Selection:** The application now dynamically selects the AI service and model based on a CLI argument (`-m` or `--model`). This involves:
     - Defining supported models within each AI provider's file (e.g., `GeminiModels` enum in `gemini_service.py`).
     - The `AIService` abstract class now includes a `model` parameter in its `__init__` and an abstract `get_supported_models()` method.
-    - `fml/__main__.py` handles the parsing of the model argument and the dynamic instantiation of the correct AI service, along with determining the appropriate API key environment variable and system prompt path.
+    - The `_initialize_ai_service` helper function in `fml/__main__.py` handles the parsing of the model argument and the dynamic instantiation of the correct AI service, along with determining the appropriate API key environment variable and system prompt path.
 - **Structured AI Response with Pydantic:** The AI is prompted to return a structured JSON response, now strictly enforced and validated using `pydantic` models defined in `fml/schemas.py`. This ensures reliable parsing and extraction of command, explanation, and flag details. Robust error handling is implemented for malformed or missing AI responses.
 - **Separation of Core Logic and Presentation:** The core logic (AI interaction, command processing, business rules) is distinct from the presentation layer (terminal output), now handled by `fml/output_formatter.py`. This facilitates future integration with a Terminal User Interface (TUI) without rewriting the core functionality.
 
@@ -40,8 +40,8 @@ graph TD
 ## 4. Component Relationships
 
 - **CLI Parser (`argparse`):** Responsible for capturing user queries and the `--model` argument from the command line.
-- **Main Application Logic (`fml/__main__.py`):** Orchestrates the entire flow, including dynamic AI service selection, calling the selected AI service, parsing its response, and directing output to the presentation and clipboard layers.
-- **Dynamic AI Service Selection:** Logic within `fml/__main__.py` that identifies and instantiates the correct `AIService` implementation based on the user-provided model.
+- **Main Application Logic (`fml/__main__.py`):** Orchestrates the entire flow, including calling `_initialize_ai_service`, calling the selected AI service, parsing its response, and directing output to the presentation and clipboard layers.
+- **`_initialize_ai_service` function:** A helper function within `fml/__main__.py` that encapsulates the logic for identifying and instantiating the correct `AIService` implementation based on the user-provided model.
 - **AI Service Abstraction (`fml/ai_service.py`):** Defines the abstract interface for interacting with AI models, now including model-specific initialization and supported model listing.
 - **AI Provider Implementations (`fml/ai_providers/`):** Contains concrete implementations of `AIService` for specific AI providers (e.g., `GeminiService`), each defining its supported models.
 - **AI Command Response (`fml/schemas.py`):** Defines the `pydantic` data model for the structured AI output, ensuring type safety and validation.
@@ -51,12 +51,6 @@ graph TD
 
 ## 5. Critical Implementation Paths
 
-- **End-to-End Flow:** User query + model selection -> CLI parsing -> Dynamic AI service selection -> AI request -> AI response -> Response parsing -> Terminal display & Clipboard copy. This path must be robust and error-tolerant.
+- **End-to-End Flow:** User query + model selection -> CLI parsing -> `_initialize_ai_service` -> AI request -> AI response -> Response parsing -> Terminal display & Clipboard copy. This path must be robust and error-tolerant.
 - **API Key Management:** Secure and reliable access to environment variables for API keys (e.g., `GEMINI_API_KEY`) is crucial, now dynamically determined based on the selected AI service. Clear error messages for missing keys are essential.
-- **Cross-Platform Compatibility:** Ensuring `pyperclip` and general Python execution work seamlessly across macOS, Windows, and Linux.
-
-## 5. Critical Implementation Paths
-
-- **End-to-End Flow:** User query -> CLI parsing -> AI request -> AI response -> Response parsing -> Terminal display & Clipboard copy. This path must be robust and error-tolerant.
-- **API Key Management:** Secure and reliable access to the `GEMINI_API_KEY` environment variable is crucial for application functionality. Clear error messages for missing keys are essential.
 - **Cross-Platform Compatibility:** Ensuring `pyperclip` and general Python execution work seamlessly across macOS, Windows, and Linux.

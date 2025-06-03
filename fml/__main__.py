@@ -6,6 +6,50 @@ from fml.output_formatter import OutputFormatter
 from fml.ai_service import AIService
 
 
+def _initialize_ai_service(model_name: str) -> AIService:
+    """
+    Initializes and returns the appropriate AI service based on the model name.
+    """
+    available_ai_services = [GeminiService
+                             ]  # Extend this list for other AI providers
+
+    selected_ai_service: AIService | None = None
+    api_key: str | None = None
+    system_prompt_path: str | None = None
+
+    for service_class in available_ai_services:
+        if model_name in service_class.get_supported_models():
+            # Determine API key and system prompt path based on service
+            if service_class == GeminiService:
+                api_key = os.getenv("GEMINI_API_KEY")
+                system_prompt_path = os.path.join(os.path.dirname(__file__),
+                                                  "prompts",
+                                                  "gemini_system_prompt.txt")
+            # Add elif for other services here in the future
+
+            if not api_key:
+                raise RuntimeError(
+                    f"API key environment variable not set for {service_class.__name__}."
+                )
+
+            selected_ai_service = service_class(
+                api_key=api_key,
+                system_instruction_path=system_prompt_path,
+                model=model_name,
+            )
+            break
+
+    if not selected_ai_service:
+        supported_models_list = []
+        for service_class in available_ai_services:
+            supported_models_list.extend(service_class.get_supported_models())
+        raise ValueError(
+            f"Unsupported model '{model_name}'. Supported models are: {', '.join(supported_models_list)}"
+        )
+
+    return selected_ai_service
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="AI-Powered CLI Command Helper",
@@ -38,44 +82,11 @@ def main():
     # List of available AI services
     available_ai_services = [GeminiService]
 
-    selected_ai_service: AIService | None = None
-    api_key: str | None = None
-    system_prompt_path: str | None = None
-
-    for service_class in available_ai_services:
-        if args.model in service_class.get_supported_models():
-            # Determine API key based on service
-            if service_class == GeminiService:
-                api_key = os.getenv("GEMINI_API_KEY")
-                system_prompt_path = os.path.join(
-                    os.path.dirname(__file__), "prompts", "gemini_system_prompt.txt"
-                )
-            # Add elif for other services here in the future
-
-            if not api_key:
-                print(
-                    f"Error: API key environment variable not set for {service_class.__name__}."
-                )
-                sys.exit(1)
-
-            selected_ai_service = service_class(
-                api_key=api_key,
-                system_instruction_path=system_prompt_path,
-                model=args.model,
-            )
-            break
-
-    if not selected_ai_service:
-        print(f"Error: Unsupported model '{args.model}'.")
-        print("Supported models are:")
-        for service_class in available_ai_services:
-            for model_name in service_class.get_supported_models():
-                print(f"- {model_name}")
-        sys.exit(1)
+    ai_service = _initialize_ai_service(args.model)
 
     # Generate command
     try:
-        ai_command_response = selected_ai_service.generate_command(full_query)
+        ai_command_response = ai_service.generate_command(full_query)
     except RuntimeError as e:
         print(f"Error generating command: {e}")
         sys.exit(1)
@@ -84,7 +95,6 @@ def main():
     formatter = OutputFormatter()
     formatted_output = formatter.format_response(ai_command_response)
     print(formatted_output)
-
 
 
 if __name__ == "__main__":

@@ -1,0 +1,23 @@
+# Task 018: Refactor `main()` function in `fml/__main__.py` (Part 1: Initialize AI Service)
+
+**Priority:** High
+
+**Description:**
+Refactor the `main()` function in `fml/__main__.py` by extracting the AI service initialization logic into a dedicated helper function `_initialize_ai_service`. This will improve modularity and readability of the `main` function.
+
+**Dependencies:**
+-   Completed Task 017: Dynamic AI Service and Model Selection.
+
+**Implementation Details:**
+-   **Create `_initialize_ai_service(model_name: str) -> AIService` function:**
+    *   This function will encapsulate the logic for dynamically selecting and instantiating the correct `AIService` implementation based on the provided `model_name`.
+    *   It will contain the logic for iterating through `available_ai_services`, checking `get_supported_models()`, and determining the appropriate API key environment variable and system prompt path for the selected service.
+    *   It will raise `ValueError` if the model is unsupported or `RuntimeError` if the API key is not set, allowing `main()` to handle these errors gracefully.
+-   Update `main()` to call `_initialize_ai_service` and use its returned `AIService` instance.
+
+**Test Strategy:**
+-   Run `uv run python -m fml -m gemini-1.5-flash 'how do i list files in a directory?'` and verify the AI service is correctly initialized and used, and the command is generated.
+-   Run `uv run python -m fml 'how do i list files?'` (using the default model) and verify it functions correctly.
+-   Run `uv run python -m fml -m unsupported-model 'query'` and verify an appropriate error message is displayed, indicating an unsupported model.
+-   Verify that the correct API key environment variable is checked for the selected service.
+-   Verify that the correct system prompt path is used for the selected service.

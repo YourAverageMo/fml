@@ -2,7 +2,7 @@
 
 ## 1. Current Work Focus
 
-The current focus is on implementing dynamic AI service and model selection (Task 017), building upon the refactored and modularized core application logic. The next immediate step after this is to re-integrate clipboard functionality and then proceed with testing.
+The current focus is on refactoring the `main()` function in `fml/__main__.py` by extracting the AI service initialization logic into a dedicated helper function `_initialize_ai_service` (Task 018). This builds upon the dynamic AI service and model selection implemented in Task 017. The next immediate step after this is to re-integrate clipboard functionality and then proceed with testing.
 
 ## 2. Recent Changes
 
@@ -20,11 +20,14 @@ The current focus is on implementing dynamic AI service and model selection (Tas
 - **Dynamic AI Service and Model Selection (Task 017):**
   - Implemented CLI argument `-m` or `--model` in `fml/__main__.py` for dynamic model selection.
   - Logic added to `fml/__main__.py` to dynamically select and instantiate the correct AI service based on the provided model name, and to determine the appropriate API key and system prompt path.
+- **Refactor `main()` function (Task 018 - Part 1):**
+  - Extracted AI service initialization logic into a new `_initialize_ai_service` helper function in `fml/__main__.py`.
 
 ## 3. Next Steps
 
 The immediate next steps involve:
 
+- Completing the refactoring of the `main()` function (Task 018 - remaining parts).
 - Re-integrating clipboard functionality (Task 005).
 - Planning out the remaining testing tasks for the project.
 - Creating individual task files for testing.
