@@ -48,10 +48,9 @@ Tasks are managed as individual Markdown files in the `tasks/` directory (`task_
 
 **Task Queue:**
 
-- Task 005: Clipboard Integration
 - Task 006: Error Handling & Refinement
+- Task 025: Enhance LLM Context with System Information
 - Task 007: Cross-Platform Testing
-- Task 015: Test Clipboard Integration
 - Task 016: Integration Tests
 
 **Completed Tasks:**
@@ -70,6 +69,8 @@ Tasks are managed as individual Markdown files in the `tasks/` directory (`task_
 - Task 022: Test Pydantic Schemas
 - Task 023: Test Output Formatter
 - Task 024: Test \_initialize_ai_service Function
+- Task 005: Clipboard Integration
+- Task 015: Test Clipboard Integration
 
 **Removed Tasks:**
 

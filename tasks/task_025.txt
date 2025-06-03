@@ -1,0 +1,35 @@
+# Task 025: Enhance LLM Context with System Information
+
+**Priority:** Medium
+
+**Description:**
+This task aims to improve the AI's ability to generate accurate and contextually relevant CLI commands by providing it with essential system information. This includes the operating system, the user's default shell, the current working directory, the system architecture, and the Python version. This comprehensive context will enable the LLM to tailor commands and explanations more precisely to the user's environment, reducing the likelihood of platform-specific errors or irrelevant suggestions.
+
+**Dependencies:**
+
+- None
+
+**Implementation Details:**
+- **Create `fml/gather_system_info.py`:**
+    - Create a new Python module `fml/gather_system_info.py` to encapsulate functions for gathering system information.
+    - Implement functions within `fml/gather_system_info.py` to retrieve:
+        - **Operating System:** Use `platform.system()`.
+        - **Default Shell:** Use `os.environ.get('SHELL')` for Unix-like systems. For Windows, consider a default or a more robust detection if possible, but initially, `platform.system()` returning 'Windows' might suffice for the LLM to infer common Windows shells.
+        - **Current Working Directory:** Use `os.getcwd()`.
+        - **System Architecture:** Use `platform.machine()`.
+        - **Python Version:** Use `platform.python_version()`.
+    - A main function or a class method in `fml/gather_system_info.py` should aggregate all this information into a structured format (e.g., a dictionary or a Pydantic model) that can be easily passed to the AI service.
+- **Integrate into AI Service:**
+    - Import the system information gathering function from `fml/gather_system_info.py` into `fml/__main__.py`.
+    - Call this function to retrieve the system information before initializing the AI service.
+    - Pass this gathered system information as an additional parameter to the AI model, likely by appending it to the system prompt or as a separate context field if the AI API supports it.
+    - The `fml/prompts/gemini_system_prompt.txt` will need to be updated to instruct the LLM on how to interpret and utilize this new context (e.g., "The user's OS is [OS], their shell is [SHELL], current directory is [CWD], architecture is [ARCH], and Python version is [PYTHON_VER]. Tailor commands accordingly.").
+
+**Test Strategy:**
+- **Unit Tests for `fml/gather_system_info.py`:**
+    - Create a test file `tests/test_gather_system_info.py`.
+    - Write tests to verify that each function in `fml/gather_system_info.py` correctly returns the expected system information. Mock `platform` and `os` modules as needed to simulate different environments (macOS, Windows, Linux, different shells, etc.).
+- **Integration Tests:**
+    - Modify existing integration tests or create new ones to ensure that the system information is correctly gathered and passed to the mocked AI service. Assert that the mocked AI service receives the system information as part of its input (e.g., in the system prompt).
+- **Manual Verification:**
+    - After implementation, run `fml` on different operating systems (macOS, Windows, Linux if possible) and with different default shells to manually confirm that the generated commands are appropriate for the environment, leveraging the new context.

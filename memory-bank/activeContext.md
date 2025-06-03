@@ -2,7 +2,7 @@
 
 ## 1. Current Work Focus
 
-The current focus is on implementing comprehensive tests for the new additions to the project, aiming for 100% or near 100% test coverage, including edge cases. Tasks 022 (Test Pydantic Schemas), 023 (Test Output Formatter), and 024 (Test _initialize_ai_service Function) have been completed.
+The current focus is on implementing comprehensive tests for the new additions to the project, aiming for 100% or near 100% test coverage, including edge cases. Tasks 022 (Test Pydantic Schemas), 023 (Test Output Formatter), 024 (Test _initialize_ai_service Function), 005 (Clipboard Integration), and 015 (Test Clipboard Integration) have been completed.
 
 ## 2. Recent Changes
 
@@ -22,15 +22,21 @@ The current focus is on implementing comprehensive tests for the new additions t
   - Logic added to `fml/__main__.py` to dynamically select and instantiate the correct AI service based on the provided model name, and to determine the appropriate API key and system prompt path.
 - **Refactor `main()` function (Task 018 - Part 1):**
   - Extracted AI service initialization logic into a new `_initialize_ai_service` helper function in `fml/__main__.py`.
+- **Clipboard Integration (Task 005):**
+  - The `pyperclip` library has been added as a dependency.
+  - Logic has been implemented in `fml/__main__.py` to copy the generated command to the system clipboard and display a confirmation message.
+- **Test Clipboard Integration (Task 015):**
+  - A new test file `tests/test_clipboard.py` has been created.
+  - Tests have been implemented using `pytest`'s `monkeypatch` and `capsys` fixtures to mock `pyperclip.copy()` and verify the confirmation message.
 
 ## 3. Next Steps
 
 The immediate next steps involve:
 
-- Planning out the remaining testing tasks for the project, as outlined in the previous plan.
-- Creating individual task files for testing.
-- Updating `progress.md` with the new testing tasks.
-- Implementing tests for existing functionalities, starting with CLI parsing and API key management.
+- Working on error handling and refinement (Task 006).
+- Enhancing LLM context with system information (Task 025).
+- Cross-platform testing (Task 007).
+- Integration tests (Task 016).
 
 ## 4. Active Decisions and Considerations
 

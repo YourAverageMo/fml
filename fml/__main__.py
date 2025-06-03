@@ -1,6 +1,7 @@
 import argparse
 import os
 import sys
+import pyperclip
 from fml.ai_providers.gemini_service import GeminiService, GeminiModels
 from fml.output_formatter import OutputFormatter
 from fml.ai_service import AIService
@@ -94,6 +95,13 @@ def main():
     formatter = OutputFormatter()
     formatted_output = formatter.format_response(ai_command_response)
     print(formatted_output)
+
+    # Copy command to clipboard
+    try:
+        pyperclip.copy(ai_command_response.command)
+        print("(command copied to clipboard)")
+    except pyperclip.PyperclipException as e:
+        print(f"Warning: Could not copy to clipboard: {e}", file=sys.stderr)
 
 
 if __name__ == "__main__":
