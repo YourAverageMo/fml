@@ -29,7 +29,7 @@
 ## 4. Dependencies
 
 - **External Libraries:**
-  - `google-generativeai`: For interacting with the Google Gemini API.
+  - `google-generativeai`: For interacting with the Google Gemini API. Note: `APIError` is found in `google.genai.errors`.
   - `pyperclip`: For cross-platform clipboard operations.
 - **System Dependencies for `pyperclip` (Linux):** May require `xclip` or `xsel` to be installed on Linux systems.
 
@@ -38,5 +38,5 @@
 - **`uv run`:** Used for executing Python scripts and commands within the project's virtual environment.
 - **`argparse`:** Used for robust and standard CLI argument parsing.
 - **`os.environ`:** Standard Python approach for secure environment variable access.
-- **`google-generativeai` SDK:** Direct interaction with the Gemini API via its official SDK.
+- **`google-generativeai` SDK:** Direct interaction with the Gemini API via its official SDK. When handling API errors, `google.genai.errors.APIError` should be caught.
 - **`pyperclip`:** Utilized for its cross-platform capabilities in clipboard management.

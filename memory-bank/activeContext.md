@@ -51,3 +51,7 @@ The immediate next steps involve:
 - Cross-platform compatibility, particularly for clipboard operations, requires careful attention to potential system-level dependencies.
 - A clear, modular architecture, now largely implemented for the core AI interaction and dynamic selection, is key to future extensibility, especially for adding new AI providers or a TUI.
 - The iterative process of refactoring and testing is crucial for maintaining code health and addressing issues promptly.
+- **Google Gemini SDK (`google-generativeai`) Learnings:**
+    - The `APIError` exception is found in `google.genai.errors`, not `google.genai.types`.
+    - When mocking `APIError` for testing, its constructor expects the error message as a positional argument and `response_json` as a keyword argument (e.g., `APIError("message", response_json={...})`).
+    - When mocking `google.genai.Client` using `unittest.mock.patch` in `pytest` fixtures, the fixture should yield the patched class (`mock_client_class`). Test functions should then access the mock instance via `mock_client_class.return_value` to interact with its methods (e.g., `mock_client_instance.models.generate_content`).
