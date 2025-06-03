@@ -1,0 +1,20 @@
+# Task 025: Test API Key Management
+
+**Priority:** High
+
+**Description:**
+Implement unit tests to ensure robust and secure handling of API keys within the `fml` application. This task focuses on verifying that the application correctly retrieves API keys from environment variables and provides clear error messages when keys are missing.
+
+**Dependencies:**
+- `pytest` for testing.
+- `unittest.mock` for mocking `os.environ`.
+
+**Implementation Details:**
+- Add new test cases to `tests/test_fml.py` or a new dedicated test file (e.g., `tests/test_api_keys.py`).
+- Use `unittest.mock.patch.dict` to temporarily modify `os.environ` for testing scenarios where API keys are present or missing.
+- Use `pytest.raises` to verify that appropriate exceptions are raised when API keys are not found.
+
+**Test Strategy:**
+- **API Key Present:** Test that the application correctly retrieves the `GEMINI_API_KEY` (or other relevant API keys based on selected AI service) when it is set in the environment.
+- **API Key Missing:** Test scenarios where the `GEMINI_API_KEY` environment variable is not set, ensuring the application raises a clear error or handles it gracefully as designed.
+- **Dynamic Key Retrieval:** If applicable, verify that the correct environment variable name is used based on the dynamically selected AI service.

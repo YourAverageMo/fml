@@ -1,0 +1,22 @@
+# Task 023: Test Output Formatter
+
+**Priority:** High
+
+**Description:**
+Implement unit tests for the `format_response` function in `fml/output_formatter.py`. This task ensures that the AI response is correctly formatted into a human-readable string for terminal display, adhering to the specifications in `prd.md`.
+
+**Dependencies:**
+- Task 022: Test Pydantic Schemas (as it relies on `AICommandResponse` objects)
+- `pytest` for testing.
+
+**Implementation Details:**
+- Add new test cases to `tests/test_fml.py` or a new dedicated test file (e.g., `tests/test_output_formatter.py`).
+- Create various `AICommandResponse` objects (e.g., with/without flags, long/short explanations, empty command) to use as test inputs.
+- Capture the output of `format_response` and assert that it matches the expected formatted string.
+
+**Test Strategy:**
+- **Standard Output:** Verify that `format_response` produces the expected string output for a typical `AICommandResponse` object with an explanation, flags, and a command.
+- **No Flags:** Test a scenario where the `flags` list is empty, ensuring the output format is correct without the flag section.
+- **Empty Command:** Test a scenario where the `command` field is an empty string.
+- **Long/Short Explanations:** Verify that explanations of varying lengths are handled correctly.
+- **Special Characters:** Test with explanations, flags, and commands containing special characters to ensure they are rendered correctly.

@@ -1,0 +1,24 @@
+# Task 024: Test _initialize_ai_service Function
+
+**Priority:** High
+
+**Description:**
+Implement unit tests for the `_initialize_ai_service` helper function in `fml/__main__.py`. This task focuses on verifying the logic for dynamic AI service and model selection, including correct instantiation, error handling for unsupported models, and proper retrieval of API keys and system prompt paths.
+
+**Dependencies:**
+- Task 020: Test AI Service Abstraction
+- `pytest` for testing.
+- `unittest.mock` for mocking `os.environ` and AI service instantiation.
+
+**Implementation Details:**
+- Add new test cases to `tests/test_fml.py` or a new dedicated test file (e.g., `tests/test_main_functions.py`).
+- Mock `os.environ` to control environment variables for API keys.
+- Mock the `AIService` and `GeminiService` classes to control their instantiation behavior.
+- Use `pytest.raises` to test error conditions.
+
+**Test Strategy:**
+- **Valid Model Selection:** Test that `_initialize_ai_service` correctly instantiates `GeminiService` when a valid Gemini model name is provided.
+- **Unsupported Model:** Verify that an appropriate error (e.g., `ValueError` or custom exception) is raised when an unsupported model name is provided.
+- **Missing API Key:** Mock `os.environ` to simulate a missing `GEMINI_API_KEY` and assert that `_initialize_ai_service` handles this gracefully (e.g., raises an error or returns `None`).
+- **Correct API Key Retrieval:** Verify that the function attempts to retrieve the correct environment variable for the selected AI service.
+- **Correct System Prompt Path:** Assert that the correct system prompt file path is determined based on the selected AI service.

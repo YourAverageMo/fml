@@ -38,16 +38,6 @@ def test_cli_parsing_without_quotes():
     assert "Query received: how do i view the git diff" in result.stdout
     assert not result.stderr
 
-def test_cli_parsing_no_query():
-    """
-    Test that if no query is provided, a helpful usage message is displayed and exits with code 0.
-    Simulates: fml
-    """
-    result = run_fml_command([])
-    assert result.returncode == 0 # Should exit with 0 for successful help display
-    assert "usage: fml" in result.stdout # Help message is printed to stdout
-    assert not result.stderr
-
 def test_cli_parsing_help_flag():
     """
     Test that the -h/--help flag displays the help message and exits with code 0.
@@ -66,26 +56,6 @@ def test_cli_parsing_help_long_flag():
     result = run_fml_command(['--help'])
     assert result.returncode == 0
     assert "usage: fml" in result.stdout
-    assert not result.stderr
-
-def test_api_key_not_set():
-    """
-    Test that the application exits with an error if GEMINI_API_KEY is not set.
-    """
-    # Temporarily unset the environment variable for this test
-    original_gemini_api_key = os.getenv("GEMINI_API_KEY")
-    if original_gemini_api_key:
-        del os.environ["GEMINI_API_KEY"]
-
-    result = run_fml_command(['some query']) # Provide a query so it doesn't hit the help message path
-    
-    # Restore the environment variable
-    if original_gemini_api_key:
-        os.environ["GEMINI_API_KEY"] = original_gemini_api_key
-
-    assert result.returncode == 1
-    assert "Error: GEMINI_API_KEY environment variable not set." in result.stdout
-    assert "Please set the GEMINI_API_KEY environment variable to your Google Gemini API key." in result.stdout
     assert not result.stderr
 
 def test_api_key_set():

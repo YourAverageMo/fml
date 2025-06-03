@@ -1,0 +1,19 @@
+# Task 020: Test AI Service Abstraction
+
+**Priority:** High
+
+**Description:**
+Implement unit tests for the `AIService` abstract base class in `fml/ai_service.py`. This task ensures that the abstract class behaves as expected, particularly regarding its abstract methods and instantiation.
+
+**Dependencies:**
+- `pytest` for testing.
+
+**Implementation Details:**
+- Add new test cases to `tests/test_fml.py` or a new dedicated test file (e.g., `tests/test_ai_service.py`).
+- Use `pytest.raises` to verify `TypeError` when attempting to instantiate `AIService` directly.
+- Create a mock concrete implementation of `AIService` to test that all abstract methods must be implemented.
+
+**Test Strategy:**
+- **Abstract Class Instantiation:** Verify that `AIService` cannot be instantiated directly and raises a `TypeError`.
+- **Abstract Method Enforcement:** Create a dummy class that inherits from `AIService` but does not implement all abstract methods, and assert that it cannot be instantiated.
+- **Method Signatures:** Ensure that concrete implementations correctly override the abstract methods with the expected signatures.

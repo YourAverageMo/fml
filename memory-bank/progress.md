@@ -44,11 +44,16 @@ Tasks are managed as individual Markdown files in the `tasks/` directory (`task_
 
 ## 5. Current tasks, task queue, and completed tasks
 
-**Current Task:** None
+**Current Task:** Task 020: Test AI Service Abstraction
 
 **Task Queue:**
 
-- Task 017: Dynamic AI Service and Model Selection
+- Task 020: Test AI Service Abstraction
+- Task 021: Test Gemini Service Implementation
+- Task 022: Test Pydantic Schemas
+- Task 023: Test Output Formatter
+- Task 024: Test _initialize_ai_service Function
+- Task 025: Test API Key Management
 - Task 004: Response Parsing & Display
 - Task 005: Clipboard Integration
 - Task 006: Error Handling & Refinement
@@ -71,6 +76,7 @@ Tasks are managed as individual Markdown files in the `tasks/` directory (`task_
 - Task 003: Gemini API Integration
 - Task 017: Dynamic AI Service and Model Selection
 - Task 018: Refactor `main()` function in `fml/__main__.py` (Part 1: Initialize AI Service)
+- Task 019: Test CLI Argument Parsing
 
 ## 6. Known issues
 

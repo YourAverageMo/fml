@@ -1,0 +1,32 @@
+# Task 021: Test Gemini Service Implementation
+
+**Priority:** High
+
+**Description:**
+Implement comprehensive unit tests for the `GeminiService` class in `fml/ai_providers/gemini_service.py`. This task will focus on testing its instantiation, supported models, and the `generate_command` method, with extensive mocking of the underlying Google Gemini API to ensure deterministic and efficient tests. Edge cases for AI responses (valid, malformed, empty) and simulated API errors should be covered.
+
+**Dependencies:**
+- Task 020: Test AI Service Abstraction
+- `pytest` for testing.
+- `unittest.mock` for mocking the `google.generativeai` client.
+
+**Implementation Details:**
+- Add new test cases to `tests/test_fml.py` or a new dedicated test file (e.g., `tests/test_gemini_service.py`).
+- Mock the `google.generativeai.GenerativeModel` and its `generate_content` method to control AI responses.
+- Use `pytest.raises` to test error conditions.
+
+**Test Strategy:**
+- **Instantiation:** Verify `GeminiService` can be instantiated with valid and invalid model names.
+- **`get_supported_models()`:** Assert that this method returns the expected `GeminiModels` enum values.
+- **`generate_command` - Valid Responses:**
+    - Mock the AI to return valid structured JSON responses (as defined in `fml/schemas.py`).
+    - Verify that `generate_command` correctly parses and returns `AICommandResponse` objects.
+- **`generate_command` - Malformed Responses (Edge Cases):**
+    - Mock the AI to return invalid JSON (e.g., syntax errors, missing required fields, incorrect data types).
+    - Assert that `generate_command` handles these gracefully, potentially raising specific exceptions or returning a default error response.
+- **`generate_command` - Empty/Unexpected Responses:**
+    - Mock the AI to return empty strings, non-JSON text, or other unexpected formats.
+    - Verify appropriate error handling.
+- **Simulated API Errors:**
+    - Mock the AI client to raise exceptions (e.g., network errors, authentication errors, rate limit errors) during `generate_content` calls.
+    - Assert that `generate_command` catches and handles these exceptions, providing informative error messages.

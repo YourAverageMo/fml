@@ -82,13 +82,12 @@ def main():
     # List of available AI services
     available_ai_services = [GeminiService]
 
-    ai_service = _initialize_ai_service(args.model)
-
-    # Generate command
+    # Initialize AI service and generate command
     try:
+        ai_service = _initialize_ai_service(args.model)
         ai_command_response = ai_service.generate_command(full_query)
-    except RuntimeError as e:
-        print(f"Error generating command: {e}")
+    except (RuntimeError, ValueError) as e:
+        print(f"Error: {e}", file=sys.stderr)
         sys.exit(1)
 
     # Format and display response

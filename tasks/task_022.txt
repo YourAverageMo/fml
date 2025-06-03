@@ -1,0 +1,20 @@
+# Task 022: Test Pydantic Schemas
+
+**Priority:** High
+
+**Description:**
+Implement unit tests for the Pydantic data models defined in `fml/schemas.py`. This task ensures that the `AICommandResponse` and `Flag` schemas correctly validate data and raise `ValidationError` for invalid inputs.
+
+**Dependencies:**
+- `pytest` for testing.
+- `pydantic` for schema validation.
+
+**Implementation Details:**
+- Add new test cases to `tests/test_fml.py` or a new dedicated test file (e.g., `tests/test_schemas.py`).
+- Use `pytest.raises` to verify `ValidationError` for invalid data.
+
+**Test Strategy:**
+- **Valid Data:** Create instances of `AICommandResponse` and `Flag` with valid data and assert that they are created successfully.
+- **Invalid Data - Missing Fields:** Test cases where required fields are missing, ensuring `ValidationError` is raised.
+- **Invalid Data - Incorrect Types:** Test cases where fields have incorrect data types, ensuring `ValidationError` is raised.
+- **Invalid Data - Extra Fields:** Test cases with unexpected extra fields to ensure Pydantic handles them as configured (e.g., ignores or raises error).

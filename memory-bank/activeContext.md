@@ -2,7 +2,7 @@
 
 ## 1. Current Work Focus
 
-The current focus is on refactoring the `main()` function in `fml/__main__.py` by extracting the AI service initialization logic into a dedicated helper function `_initialize_ai_service` (Task 018). This builds upon the dynamic AI service and model selection implemented in Task 017. The next immediate step after this is to re-integrate clipboard functionality and then proceed with testing.
+The current focus is on implementing comprehensive tests for the new additions to the project, aiming for 100% or near 100% test coverage, including edge cases.
 
 ## 2. Recent Changes
 
@@ -27,9 +27,7 @@ The current focus is on refactoring the `main()` function in `fml/__main__.py` b
 
 The immediate next steps involve:
 
-- Completing the refactoring of the `main()` function (Task 018 - remaining parts).
-- Re-integrating clipboard functionality (Task 005).
-- Planning out the remaining testing tasks for the project.
+- Planning out the remaining testing tasks for the project, as outlined in the previous plan.
 - Creating individual task files for testing.
 - Updating `progress.md` with the new testing tasks.
 - Implementing tests for existing functionalities, starting with CLI parsing and API key management.
@@ -45,7 +43,7 @@ The immediate next steps involve:
 
 - **Environment Variables for API Keys:** API keys (e.g., `GEMINI_API_KEY`) are now dynamically determined based on the selected AI service.
 - **Python Standard Libraries:** Prioritizing `argparse` for CLI parsing.
-- **External Libraries:** `google.genai` (the new SDK), `pyperclip` (to be re-added), and `pydantic` are the primary external dependencies for MVP.
+- **External Libraries:** `google.genai` (the new SDK), `pyperclip` (pending re-integration), and `pydantic` are the primary external dependencies for MVP.
 
 ## 6. Learnings and Project Insights
 

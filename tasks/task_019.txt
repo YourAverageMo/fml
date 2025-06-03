@@ -1,0 +1,22 @@
+# Task 019: Test CLI Argument Parsing
+
+**Priority:** High
+
+**Description:**
+Implement comprehensive unit tests for the CLI argument parsing logic in `fml/__main__.py`. This task specifically focuses on the new `-m`/`--model` argument and its interaction with the main natural language query, ensuring all valid and invalid input scenarios are covered.
+
+**Dependencies:**
+- Task 009: Test CLI Parsing (already completed, but this builds upon it)
+- `pytest` for testing.
+
+**Implementation Details:**
+- Add new test cases to `tests/test_fml.py` or create a new dedicated test file (e.g., `tests/test_cli.py`) if the existing file becomes too large.
+- Use `argparse` to simulate command-line arguments for testing.
+- Mock `sys.argv` or use `pytest` fixtures for CLI argument testing.
+
+**Test Strategy:**
+- **Valid Model Names:** Run tests with `fml --model gemini-pro "query"` and other valid model names to ensure correct parsing.
+- **Invalid/Unsupported Model Names:** Test scenarios where an invalid or unsupported model name is provided, verifying that appropriate error messages are displayed or default behavior is triggered.
+- **Default Model Selection:** Verify the application's behavior when no `--model` argument is specified, ensuring the correct default model is used.
+- **Query Interaction:** Test combinations where both the `--model` argument and the main natural language query are provided, ensuring both are parsed correctly.
+- **Edge Cases:** Consider empty queries, queries with special characters, and other edge cases for argument parsing.
