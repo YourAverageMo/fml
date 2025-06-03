@@ -4,6 +4,7 @@ from fml.ai_service import AIService
 from fml.schemas import AICommandResponse
 from google import genai
 from google.genai.types import GenerateContentResponse
+from google.genai.errors import APIError
 
 
 class GeminiModels(Enum):
@@ -41,7 +42,7 @@ class GeminiService(AIService):
             )
             # Parse the JSON string into the Pydantic model
             return AICommandResponse.model_validate_json(response.text)
-        except genai.types.APIError as e:
+        except APIError as e:
             raise RuntimeError(
                 f"API Error: {e.message} (Code: {e.code})") from e
         except Exception as e:
