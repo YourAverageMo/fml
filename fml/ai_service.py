@@ -1,5 +1,14 @@
 from abc import ABC, abstractmethod
 from typing import List
+import requests
+from google.genai.errors import APIError
+from pydantic import ValidationError
+from fml.schemas import AICommandResponse
+
+
+class AIServiceError(Exception):
+    """Custom exception for AI service-related errors."""
+    pass
 
 
 class AIService(ABC):
@@ -14,9 +23,10 @@ class AIService(ABC):
         self.model = model
 
     @abstractmethod
-    def generate_command(self, query: str):
+    def _generate_command_internal(self, query: str) -> AICommandResponse:
         """
-        Generates a CLI command based on a natural language query.
+        Internal method to generate a CLI command based on a natural language query.
+        Concrete implementations should implement their specific API calls here.
 
         Args:
             query: The natural language query.
@@ -25,6 +35,31 @@ class AIService(ABC):
             An instance of AICommandResponse containing the generated command, explanation, and flags.
         """
         pass
+
+    def generate_command(self, query: str) -> AICommandResponse:
+        """
+        Generates a CLI command based on a natural language query, with common error handling.
+
+        Args:
+            query: The natural language query.
+
+        Returns:
+            An instance of AICommandResponse containing the generated command, explanation, and flags.
+        """
+        try:
+            return self._generate_command_internal(query)
+        except APIError as e:
+            # Catch specific API errors (e.g., authentication, rate limits)
+            raise AIServiceError(f"API Error: {e.message} (Code: {e.code})") from e
+        except requests.exceptions.ConnectionError as e:
+            # Catch network-related errors
+            raise AIServiceError(f"Network Error: Could not connect to the AI service. Please check your internet connection. Details: {e}") from e
+        except ValidationError as e:
+            # Catch Pydantic validation errors if AI response is malformed
+            raise AIServiceError(f"AI Response Format Error: The AI returned an unexpected response format. Details: {e}") from e
+        except Exception as e:
+            # Catch any other unexpected errors
+            raise AIServiceError(f"An unexpected error occurred during AI interaction: {e}") from e
 
     @staticmethod
     @abstractmethod

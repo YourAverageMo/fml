@@ -4,7 +4,6 @@ from fml.ai_service import AIService
 from fml.schemas import AICommandResponse
 from google import genai
 from google.genai.types import GenerateContentResponse
-from google.genai.errors import APIError
 
 
 class GeminiModels(Enum):
@@ -29,21 +28,15 @@ class GeminiService(AIService):
     def get_supported_models() -> list[str]:
         return [model.value for model in GeminiModels]
 
-    def generate_command(self, query: str) -> AICommandResponse:
-        try:
-            response: GenerateContentResponse = self.client.models.generate_content(
-                model=self.model_name,
-                contents=query,
-                config=genai.types.GenerateContentConfig(
-                    system_instruction=self.system_instruction,
-                    response_mime_type="application/json",
-                    response_schema=AICommandResponse.model_json_schema(),
-                ),
-            )
-            # Parse the JSON string into the Pydantic model
-            return AICommandResponse.model_validate_json(response.text)
-        except APIError as e:
-            raise RuntimeError(
-                f"API Error: {e.message} (Code: {e.code})") from e
-        except Exception as e:
-            raise RuntimeError(f"An unexpected error occurred: {e}") from e
+    def _generate_command_internal(self, query: str) -> AICommandResponse:
+        response: GenerateContentResponse = self.client.models.generate_content(
+            model=self.model_name,
+            contents=query,
+            config=genai.types.GenerateContentConfig(
+                system_instruction=self.system_instruction,
+                response_mime_type="application/json",
+                response_schema=AICommandResponse.model_json_schema(),
+            ),
+        )
+        # Parse the JSON string into the Pydantic model
+        return AICommandResponse.model_validate_json(response.text)

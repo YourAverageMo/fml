@@ -2,7 +2,7 @@
 
 ## 1. Current Work Focus
 
-The current focus is on implementing comprehensive tests for the new additions to the project, aiming for 100% or near 100% test coverage, including edge cases. Tasks 022 (Test Pydantic Schemas), 023 (Test Output Formatter), 024 (Test _initialize_ai_service Function), 005 (Clipboard Integration), and 015 (Test Clipboard Integration) have been completed.
+The current focus is on implementing comprehensive tests for the new additions to the project, aiming for 100% or near 100% test coverage, including edge cases. Tasks 022 (Test Pydantic Schemas), 023 (Test Output Formatter), 024 (Test _initialize_ai_service Function), 005 (Clipboard Integration), 015 (Test Clipboard Integration), and 006 (Error Handling & Refinement) have been completed.
 
 ## 2. Recent Changes
 
@@ -28,12 +28,16 @@ The current focus is on implementing comprehensive tests for the new additions t
 - **Test Clipboard Integration (Task 015):**
   - A new test file `tests/test_clipboard.py` has been created.
   - Tests have been implemented using `pytest`'s `monkeypatch` and `capsys` fixtures to mock `pyperclip.copy()` and verify the confirmation message.
+- **Error Handling & Refinement (Task 006):**
+  - Centralized common error handling for AI service interactions in the `AIService` abstract base class (`fml/ai_service.py`).
+  - Introduced `AIServiceError` custom exception for consistent error reporting.
+  - Modified `GeminiService` (`fml/ai_providers/gemini_service.py`) to implement `_generate_command_internal` and rely on the base class for common error handling.
+  - Updated `fml/__main__.py` to catch `AIServiceError` for user-friendly error messages.
 
 ## 3. Next Steps
 
 The immediate next steps involve:
 
-- Working on error handling and refinement (Task 006).
 - Enhancing LLM context with system information (Task 025).
 - Cross-platform testing (Task 007).
 - Integration tests (Task 016).

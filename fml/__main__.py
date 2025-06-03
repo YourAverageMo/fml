@@ -4,7 +4,7 @@ import sys
 import pyperclip
 from fml.ai_providers.gemini_service import GeminiService, GeminiModels
 from fml.output_formatter import OutputFormatter
-from fml.ai_service import AIService
+from fml.ai_service import AIService, AIServiceError
 
 
 def _initialize_ai_service(model_name: str) -> AIService:
@@ -87,7 +87,7 @@ def main():
     try:
         ai_service = _initialize_ai_service(args.model)
         ai_command_response = ai_service.generate_command(full_query)
-    except (RuntimeError, ValueError) as e:
+    except (AIServiceError, ValueError) as e:
         print(f"Error: {e}", file=sys.stderr)
         sys.exit(1)
 

@@ -35,8 +35,10 @@
 
 ## 5. Tool Usage Patterns
 
-- **`uv run`:** Used for executing Python scripts and commands within the project's virtual environment.
+- **`uv run -m fml`:** Used for executing the `fml` application directly from the project's virtual environment during development and testing.
+- **`uv run`:** Used for executing other Python scripts and commands within the project's virtual environment.
 - **`argparse`:** Used for robust and standard CLI argument parsing.
 - **`os.environ`:** Standard Python approach for secure environment variable access.
 - **`google-generativeai` SDK:** Direct interaction with the Gemini API via its official SDK. When handling API errors, `google.genai.errors.APIError` should be caught.
 - **`pyperclip`:** Utilized for its cross-platform capabilities in clipboard management.
+- **Git Commit Messages:** Follow the format `type: subject (Task_XXX)`. Do not include "update memory bank" in commit messages.
