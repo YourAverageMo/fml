@@ -48,7 +48,6 @@ Tasks are managed as individual Markdown files in the `tasks/` directory (`task_
 
 **Task Queue:**
 
-- Task 025: Test API Key Management
 - Task 004: Response Parsing & Display
 - Task 005: Clipboard Integration
 - Task 006: Error Handling & Refinement
@@ -76,7 +75,7 @@ Tasks are managed as individual Markdown files in the `tasks/` directory (`task_
 - Task 021: Test Gemini Service Implementation
 - Task 022: Test Pydantic Schemas
 - Task 023: Test Output Formatter
-- Task 024: Test _initialize_ai_service Function
+- Task 024: Test \_initialize_ai_service Function
 
 ## 6. Known issues
 
