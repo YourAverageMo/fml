@@ -48,15 +48,9 @@ Tasks are managed as individual Markdown files in the `tasks/` directory (`task_
 
 **Task Queue:**
 
-- Task 004: Response Parsing & Display
 - Task 005: Clipboard Integration
 - Task 006: Error Handling & Refinement
 - Task 007: Cross-Platform Testing
-- Task 010: Test API Key Management
-- Task 011: Mock AI Service
-- Task 012: Test AI Interaction (Mocked)
-- Task 013: Test Response Parsing
-- Task 014: Test Terminal Display
 - Task 015: Test Clipboard Integration
 - Task 016: Integration Tests
 
@@ -76,6 +70,15 @@ Tasks are managed as individual Markdown files in the `tasks/` directory (`task_
 - Task 022: Test Pydantic Schemas
 - Task 023: Test Output Formatter
 - Task 024: Test \_initialize_ai_service Function
+
+**Removed Tasks:**
+
+- Task 004: Response Parsing & Display (Duplicate of work covered by Task 022 and Task 023 implementations)
+- Task 010: Test API Key Management (Covered by Task 024 testing `_initialize_ai_service` function)
+- Task 011: Mock AI Service (Covered by existing `AIService` abstraction and related tests)
+- Task 012: Test AI Interaction (Mocked) (Covered by Task 020 and Task 021 testing AI service implementations)
+- Task 013: Test Response Parsing (Covered by Task 022 testing Pydantic schemas)
+- Task 014: Test Terminal Display (Covered by Task 023 testing Output Formatter)
 
 ## 6. Known issues
 
