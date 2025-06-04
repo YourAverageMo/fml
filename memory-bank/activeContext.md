@@ -42,6 +42,12 @@ The current focus is on enhancing the LLM context with system information and en
   - Updated `fml/__main__.py` to gather system info, create `AIContext`, and pass it to `generate_command()`.
   - Modified `fml/prompts/gemini_system_prompt.txt` to instruct the AI on using system context.
   - Created `tests/test_gather_system_info.py` with `pytest` unit tests for `get_system_info()`, including mocking `platform` and `os` calls for various environments.
+- **Prompt Loading from Modules:**
+  - Renamed `fml/prompts/gemini_system_prompt.txt` to `fml/prompts/gemini_system_prompt.py`.
+  - Converted the content of `fml/prompts/gemini_system_prompt.py` into a multiline string variable `GEMINI_SYSTEM_PROMPT`.
+  - Updated `fml/ai_providers/models.py` to include `prompt_module` and `prompt_variable` fields in `ModelProviderDetails` and updated the `MODELS` dictionary accordingly.
+  - Modified `fml/__main__.py` to dynamically import the prompt module and retrieve the prompt string, passing it directly to the AI service.
+  - Updated `fml/ai_service.py` and `fml/ai_providers/gemini_service.py` to accept `system_instruction_content` instead of `system_instruction_path`.
 
 ## 3. Next Steps
 
@@ -71,6 +77,6 @@ The immediate next steps involve:
 - A clear, modular architecture, now largely implemented for the core AI interaction and dynamic selection, is key to future extensibility, especially for adding new AI providers or a TUI.
 - The iterative process of refactoring and testing is crucial for maintaining code health and addressing issues promptly.
 - **Google Gemini SDK (`google-generativeai`) Learnings:**
-    - The `APIError` exception is found in `google.genai.errors`, not `google.genai.types`.
-    - When mocking `APIError` for testing, its constructor expects the error message as a positional argument and `response_json` as a keyword argument (e.g., `APIError("message", response_json={...})`).
-    - When mocking `google.genai.Client` using `unittest.mock.patch` in `pytest` fixtures, the fixture should yield the patched class (`mock_client_class`). Test functions should then access the mock instance via `mock_client_class.return_value` to interact with its methods (e.g., `mock_client_instance.models.generate_content`).
+  - The `APIError` exception is found in `google.genai.errors`, not `google.genai.types`.
+  - When mocking `APIError` for testing, its constructor expects the error message as a positional argument and `response_json` as a keyword argument (e.g., `APIError("message", response_json={...})`).
+  - When mocking `google.genai.Client` using `unittest.mock.patch` in `pytest` fixtures, the fixture should yield the patched class (`mock_client_class`). Test functions should then access the mock instance via `mock_client_class.return_value` to interact with its methods (e.g., `mock_client_instance.models.generate_content`).

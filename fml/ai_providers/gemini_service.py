@@ -11,13 +11,10 @@ class GeminiService(AIService):
     Concrete implementation of AIService for Google Gemini.
     """
 
-    def __init__(self, api_key: str, system_instruction_path: str, model: str):
+    def __init__(self, api_key: str, system_instruction_content: str, model: str):
         self.client = genai.Client(api_key=api_key)
         self.model_name = model
-
-        # Read system instruction from file
-        with open(system_instruction_path, "r") as f:
-            self.system_instruction = f.read()
+        self.system_instruction = system_instruction_content
 
     def _generate_command_internal(self, query: str, ai_context: AIContext) -> AICommandResponse:
         contents_parts = [query]

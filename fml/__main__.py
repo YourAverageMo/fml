@@ -25,7 +25,8 @@ def _initialize_ai_service(model_name: str) -> AIService:
     provider_module_name = model_provider_details.provider
     service = model_provider_details.service
     env_var = model_provider_details.env_var
-    prompt_file = model_provider_details.prompt_file
+    prompt_module_name = model_provider_details.prompt_module
+    prompt_name = model_provider_details.prompt_variable
 
     api_key = os.getenv(env_var)
     if not api_key:
@@ -42,11 +43,17 @@ def _initialize_ai_service(model_name: str) -> AIService:
             f"Failed to dynamically load AI service for model '{model_name}': {e}"
         ) from e
 
-    system_prompt_path = os.path.join(os.path.dirname(__file__), prompt_file)
+    try:
+        prompt_module = importlib.import_module(prompt_module_name)
+        system_instruction_content = getattr(prompt_module, prompt_name)
+    except (ImportError, AttributeError) as e:
+        raise RuntimeError(
+            f"Failed to load system prompt for model '{model_name}': {e}"
+        ) from e
 
     selected_ai_service = service_class(
         api_key=api_key,
-        system_instruction_path=system_prompt_path,
+        system_instruction_content=system_instruction_content,
         model=model_name,
     )
 

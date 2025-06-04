@@ -16,9 +16,9 @@ class AIService(ABC):
     Defines the interface for generating CLI commands.
     """
 
-    def __init__(self, api_key: str, system_instruction_path: str, model: str):
+    def __init__(self, api_key: str, system_instruction_content: str, model: str):
         self.api_key = api_key
-        self.system_instruction_path = system_instruction_path
+        self.system_instruction_content = system_instruction_content
         self.model = model
 
     @abstractmethod
