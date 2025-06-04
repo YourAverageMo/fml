@@ -48,8 +48,6 @@ Tasks are managed as individual Markdown files in the `tasks/` directory (`task_
 
 **Task Queue:**
 
-- Task 026: Investigate Performance Issues from Unnecessary AI Provider Imports
-
 **Completed Tasks:**
 
 - Task 000: Initialize Memory Bank (Documentation)
@@ -65,11 +63,12 @@ Tasks are managed as individual Markdown files in the `tasks/` directory (`task_
 - Task 021: Test Gemini Service Implementation
 - Task 022: Test Pydantic Schemas
 - Task 023: Test Output Formatter
-- Task 024: Test _initialize_ai_service Function
+- Task 024: Test \_initialize_ai_service Function
 - Task 005: Clipboard Integration
 - Task 015: Test Clipboard Integration
 - Task 006: Error Handling & Refinement
 - Task 025: Enhance LLM Context with System Information
+- Task 026: Investigate Performance Issues from Unnecessary AI Provider Imports
 
 **Removed Tasks:**
 

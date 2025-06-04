@@ -2,7 +2,8 @@ import argparse
 import os
 import sys
 import pyperclip
-from fml.ai_providers.gemini_service import GeminiService, GeminiModels
+import importlib
+from fml.ai_providers.models import MODELS
 from fml.output_formatter import OutputFormatter
 from fml.ai_service import AIService, AIServiceError
 from fml.schemas import AIContext, SystemInfo
@@ -13,41 +14,41 @@ def _initialize_ai_service(model_name: str) -> AIService:
     """
     Initializes and returns the appropriate AI service based on the model name.
     """
-    available_ai_services = [GeminiService]  # Extend this list for other AI providers
+    model_provider_details = MODELS.get(model_name)
 
-    selected_ai_service: AIService | None = None
-    api_key: str | None = None
-    system_prompt_path: str | None = None
-
-    for service_class in available_ai_services:
-        if model_name in service_class.get_supported_models():
-            # Determine API key and system prompt path based on service
-            if service_class == GeminiService:
-                api_key = os.getenv("GEMINI_API_KEY")
-                system_prompt_path = os.path.join(os.path.dirname(__file__),
-                                                  "prompts",
-                                                  "gemini_system_prompt.txt")
-            # Add elif for other services here in the future
-
-            if not api_key:
-                raise RuntimeError(
-                    f"API key environment variable not set for {service_class.__name__}."
-                )
-
-            selected_ai_service = service_class(
-                api_key=api_key,
-                system_instruction_path=system_prompt_path,
-                model=model_name,
-            )
-            break
-
-    if not selected_ai_service:
-        supported_models_list = []
-        for service_class in available_ai_services:
-            supported_models_list.extend(service_class.get_supported_models())
+    if not model_provider_details:
+        supported_models_list = list(MODELS.keys())
         raise ValueError(
             f"Unsupported model '{model_name}'. Supported models are: {', '.join(supported_models_list)}"
         )
+
+    provider_module_name = model_provider_details.provider
+    service = model_provider_details.service
+    env_var = model_provider_details.env_var
+    prompt_file = model_provider_details.prompt_file
+
+    api_key = os.getenv(env_var)
+    if not api_key:
+        raise RuntimeError(
+            f"API key environment variable '{env_var}' not set for model '{model_name}'."
+        )
+
+    # Dynamically import the provider module and class
+    try:
+        provider_module = importlib.import_module(provider_module_name)
+        service_class = getattr(provider_module, service)
+    except (ImportError, AttributeError) as e:
+        raise RuntimeError(
+            f"Failed to dynamically load AI service for model '{model_name}': {e}"
+        ) from e
+
+    system_prompt_path = os.path.join(os.path.dirname(__file__), prompt_file)
+
+    selected_ai_service = service_class(
+        api_key=api_key,
+        system_instruction_path=system_prompt_path,
+        model=model_name,
+    )
 
     return selected_ai_service
 
@@ -66,7 +67,8 @@ def main():
     parser.add_argument(
         "-m",
         "--model",
-        default=GeminiModels.GEMINI_1_5_FLASH.value,
+        default=list(MODELS.keys())
+        [0],  # Use the first model in the MODELS dictionary as default
         help="Specify the AI model to use (e.g., 'gemini-1.5-flash').",
     )
 
@@ -88,7 +90,8 @@ def main():
     # Initialize AI service and generate command
     try:
         ai_service = _initialize_ai_service(args.model)
-        ai_command_response = ai_service.generate_command(full_query, ai_context)
+        ai_command_response = ai_service.generate_command(
+            full_query, ai_context)
     except (AIServiceError, ValueError) as e:
         print(f"Error: {e}", file=sys.stderr)
         sys.exit(1)

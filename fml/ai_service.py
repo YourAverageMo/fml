@@ -1,8 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List, Optional
-import requests
-from google.genai.errors import APIError
 from pydantic import ValidationError
+from requests.exceptions import ConnectionError
 from fml.schemas import AICommandResponse, AIContext
 
 
@@ -50,10 +49,7 @@ class AIService(ABC):
         """
         try:
             return self._generate_command_internal(query, ai_context)
-        except APIError as e:
-            # Catch specific API errors (e.g., authentication, rate limits)
-            raise AIServiceError(f"API Error: {e.message} (Code: {e.code})") from e
-        except requests.exceptions.ConnectionError as e:
+        except ConnectionError as e:
             # Catch network-related errors
             raise AIServiceError(f"Network Error: Could not connect to the AI service. Please check your internet connection. Details: {e}") from e
         except ValidationError as e:
@@ -62,11 +58,3 @@ class AIService(ABC):
         except Exception as e:
             # Catch any other unexpected errors
             raise AIServiceError(f"An unexpected error occurred during AI interaction: {e}") from e
-
-    @staticmethod
-    @abstractmethod
-    def get_supported_models() -> List[str]:
-        """
-        Returns a list of user-facing model names supported by this AI service.
-        """
-        pass

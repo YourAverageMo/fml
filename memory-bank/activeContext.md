@@ -13,13 +13,15 @@ The current focus is on enhancing the LLM context with system information and en
 - The project changes have been committed and merged to `main`.
 - A new branch `add/tests` has been created for testing efforts.
 - **Refactoring & Modularization:**
-  - An `AIService` abstract base class (`fml/ai_service.py`) has been introduced for AI provider abstraction, now including `model` in `__init__` and an abstract `get_supported_models()` method.
-  - `GeminiService` has been moved to `fml/ai_providers/gemini_service.py` and now inherits from `AIService`, accepting a `model` parameter and defining supported models via `GeminiModels` enum.
+  - An `AIService` abstract base class (`fml/ai_service.py`) has been introduced for AI provider abstraction, now including `model` in `__init__`.
+  - `GeminiService` has been moved to `fml/ai_providers/gemini_service.py` and now inherits from `AIService`, accepting a `model` parameter.
   - A new `fml/schemas.py` module defines the AI response structure using Pydantic models for robust validation.
   - A new `fml/output_formatter.py` module handles the formatting and display of AI responses.
-- **Dynamic AI Service and Model Selection (Task 017):**
+- **Dynamic AI Service and Model Selection (Task 017 & 026):**
   - Implemented CLI argument `-m` or `--model` in `fml/__main__.py` for dynamic model selection.
-  - Logic added to `fml/__main__.py` to dynamically select and instantiate the correct AI service based on the provided model name, and to determine the appropriate API key and system prompt path.
+  - A `MODELS` dictionary in `fml/ai_providers/models.py` now serves as the central registry for model metadata (provider module, service class, env var, prompt details).
+  - Logic in `fml/__main__.py` dynamically imports AI service classes and retrieves prompt content based on this metadata, preventing unnecessary imports at startup.
+  - `get_supported_models()` method has been removed from `AIService` and `GeminiService`.
 - **Refactor `main()` function (Task 018 - Part 1):**
   - Extracted AI service initialization logic into a new `_initialize_ai_service` helper function in `fml/__main__.py`.
 - **Clipboard Integration (Task 005):**
@@ -29,9 +31,9 @@ The current focus is on enhancing the LLM context with system information and en
   - A new test file `tests/test_clipboard.py` has been created.
   - Tests have been implemented using `pytest`'s `monkeypatch` and `capsys` fixtures to mock `pyperclip.copy()` and verify the confirmation message.
 - **Error Handling & Refinement (Task 006):**
-  - Centralized common error handling for AI service interactions in the `AIService` abstract base class (`fml/ai_service.py`).
+  - Centralized common error handling for AI service interactions in the `AIService` abstract base class (`fml/ai_service.py`), catching `requests.exceptions.ConnectionError` and `pydantic.ValidationError`.
   - Introduced `AIServiceError` custom exception for consistent error reporting.
-  - Modified `GeminiService` (`fml/ai_providers/gemini_service.py`) to implement `_generate_command_internal` and rely on the base class for common error handling.
+  - Modified `GeminiService` (`fml/ai_providers/gemini_service.py`) to implement `_generate_command_internal` and specifically handle `google.genai.errors.APIError`, relying on the base class for common error handling.
   - Updated `fml/__main__.py` to catch `AIServiceError` for user-friendly error messages.
 - **Enhanced LLM Context with System Information (Task 025):**
   - Defined `SystemInfo` and `AIContext` Pydantic models in `fml/schemas.py`.

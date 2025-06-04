@@ -1,14 +1,9 @@
 import os
-from enum import Enum
-from fml.ai_service import AIService
+from fml.ai_service import AIService, AIServiceError
 from fml.schemas import AICommandResponse, AIContext
 from google import genai
+from google.genai.errors import APIError
 from google.genai.types import GenerateContentResponse
-
-
-class GeminiModels(Enum):
-    GEMINI_1_5_FLASH = "gemini-1.5-flash"
-    GEMINI_1_5_PRO = "gemini-1.5-pro"
 
 
 class GeminiService(AIService):
@@ -24,10 +19,6 @@ class GeminiService(AIService):
         with open(system_instruction_path, "r") as f:
             self.system_instruction = f.read()
 
-    @staticmethod
-    def get_supported_models() -> list[str]:
-        return [model.value for model in GeminiModels]
-
     def _generate_command_internal(self, query: str, ai_context: AIContext) -> AICommandResponse:
         contents_parts = [query]
 
@@ -35,14 +26,17 @@ class GeminiService(AIService):
             system_info_json = ai_context.system_info.model_dump_json(indent=2)
             contents_parts.append(f"\n\nUser's System Information:\n```json\n{system_info_json}\n```")
 
-        response: GenerateContentResponse = self.client.models.generate_content(
-            model=self.model_name,
-            contents=contents_parts,
-            config=genai.types.GenerateContentConfig(
-                system_instruction=self.system_instruction,
-                response_mime_type="application/json",
-                response_schema=AICommandResponse.model_json_schema(),
-            ),
-        )
-        # Parse the JSON string into the Pydantic model
-        return AICommandResponse.model_validate_json(response.text)
+        try:
+            response: GenerateContentResponse = self.client.models.generate_content(
+                model=self.model_name,
+                contents=contents_parts,
+                config=genai.types.GenerateContentConfig(
+                    system_instruction=self.system_instruction,
+                    response_mime_type="application/json",
+                    response_schema=AICommandResponse.model_json_schema(),
+                ),
+            )
+            # Parse the JSON string into the Pydantic model
+            return AICommandResponse.model_validate_json(response.text)
+        except APIError as e:
+            raise AIServiceError(f"API Error: {e.message} (Code: {e.code})") from e
