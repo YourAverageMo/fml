@@ -1,0 +1,20 @@
+# Task 026: Investigate Performance Issues from Unnecessary AI Provider Imports
+
+**Priority:** Low
+
+**Description:**
+Investigate potential performance issues caused by importing unnecessary packages for specific AI providers. For example, if the application is configured to use Ollama, ensure that Gemini-related import statements or dependencies are not being loaded, which could lead to increased startup time or memory footprint.
+
+**Dependencies:**
+- None
+
+**Implementation Details:**
+- Analyze the current AI service abstraction and provider implementations (e.g., `fml/ai_service.py`, `fml/ai_providers/gemini_service.py`).
+- Identify how AI provider-specific dependencies are currently managed and imported.
+- Research Python's import mechanisms and best practices for conditional imports or lazy loading to avoid loading unused modules.
+- Consider strategies to ensure that only the necessary AI provider's dependencies are loaded at runtime based on the active configuration.
+- Document findings and propose solutions for optimizing imports.
+
+**Test Strategy:**
+- Measure application startup time and memory usage before and after implementing any proposed changes.
+- Verify that the application functions correctly with different AI providers configured, ensuring no breaking changes are introduced.

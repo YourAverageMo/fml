@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
-from typing import List
+from typing import List, Optional
 import requests
 from google.genai.errors import APIError
 from pydantic import ValidationError
-from fml.schemas import AICommandResponse
+from fml.schemas import AICommandResponse, AIContext
 
 
 class AIServiceError(Exception):
@@ -23,31 +23,33 @@ class AIService(ABC):
         self.model = model
 
     @abstractmethod
-    def _generate_command_internal(self, query: str) -> AICommandResponse:
+    def _generate_command_internal(self, query: str, ai_context: AIContext) -> AICommandResponse:
         """
         Internal method to generate a CLI command based on a natural language query.
         Concrete implementations should implement their specific API calls here.
 
         Args:
             query: The natural language query.
+            ai_context: An AIContext object containing additional context for the AI.
 
         Returns:
             An instance of AICommandResponse containing the generated command, explanation, and flags.
         """
         pass
 
-    def generate_command(self, query: str) -> AICommandResponse:
+    def generate_command(self, query: str, ai_context: AIContext) -> AICommandResponse:
         """
         Generates a CLI command based on a natural language query, with common error handling.
 
         Args:
             query: The natural language query.
+            ai_context: An AIContext object containing additional context for the AI.
 
         Returns:
             An instance of AICommandResponse containing the generated command, explanation, and flags.
         """
         try:
-            return self._generate_command_internal(query)
+            return self._generate_command_internal(query, ai_context)
         except APIError as e:
             # Catch specific API errors (e.g., authentication, rate limits)
             raise AIServiceError(f"API Error: {e.message} (Code: {e.code})") from e

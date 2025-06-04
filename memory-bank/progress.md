@@ -51,6 +51,7 @@ Tasks are managed as individual Markdown files in the `tasks/` directory (`task_
 - Task 025: Enhance LLM Context with System Information
 - Task 007: Cross-Platform Testing
 - Task 016: Integration Tests
+- Task 026: Investigate Performance Issues from Unnecessary AI Provider Imports
 
 **Completed Tasks:**
 

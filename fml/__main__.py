@@ -5,14 +5,15 @@ import pyperclip
 from fml.ai_providers.gemini_service import GeminiService, GeminiModels
 from fml.output_formatter import OutputFormatter
 from fml.ai_service import AIService, AIServiceError
+from fml.schemas import AIContext, SystemInfo
+from fml.gather_system_info import get_system_info
 
 
 def _initialize_ai_service(model_name: str) -> AIService:
     """
     Initializes and returns the appropriate AI service based on the model name.
     """
-    available_ai_services = [GeminiService
-                             ]  # Extend this list for other AI providers
+    available_ai_services = [GeminiService]  # Extend this list for other AI providers
 
     selected_ai_service: AIService | None = None
     api_key: str | None = None
@@ -80,13 +81,14 @@ def main():
     # Join the list of query parts into a single string
     full_query = " ".join(args.query)
 
-    # List of available AI services
-    available_ai_services = [GeminiService]
+    # Gather system information
+    system_info = get_system_info()
+    ai_context = AIContext(system_info=system_info)
 
     # Initialize AI service and generate command
     try:
         ai_service = _initialize_ai_service(args.model)
-        ai_command_response = ai_service.generate_command(full_query)
+        ai_command_response = ai_service.generate_command(full_query, ai_context)
     except (AIServiceError, ValueError) as e:
         print(f"Error: {e}", file=sys.stderr)
         sys.exit(1)

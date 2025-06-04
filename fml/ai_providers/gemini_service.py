@@ -1,7 +1,7 @@
 import os
 from enum import Enum
 from fml.ai_service import AIService
-from fml.schemas import AICommandResponse
+from fml.schemas import AICommandResponse, AIContext
 from google import genai
 from google.genai.types import GenerateContentResponse
 
@@ -28,10 +28,16 @@ class GeminiService(AIService):
     def get_supported_models() -> list[str]:
         return [model.value for model in GeminiModels]
 
-    def _generate_command_internal(self, query: str) -> AICommandResponse:
+    def _generate_command_internal(self, query: str, ai_context: AIContext) -> AICommandResponse:
+        contents_parts = [query]
+
+        if ai_context.system_info:
+            system_info_json = ai_context.system_info.model_dump_json(indent=2)
+            contents_parts.append(f"\n\nUser's System Information:\n```json\n{system_info_json}\n```")
+
         response: GenerateContentResponse = self.client.models.generate_content(
             model=self.model_name,
-            contents=query,
+            contents=contents_parts,
             config=genai.types.GenerateContentConfig(
                 system_instruction=self.system_instruction,
                 response_mime_type="application/json",
