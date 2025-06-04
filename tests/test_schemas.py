@@ -1,6 +1,6 @@
 import pytest
 from pydantic import ValidationError
-from fml.schemas import Flag, AICommandResponse
+from fml.schemas import Flag, AICommandResponse, SystemInfo, AIContext
 
 def test_flag_valid_data():
     """
@@ -158,3 +158,147 @@ def test_ai_command_response_extra_fields_ignored():
     )
     assert not hasattr(response, "extra_field")
     assert response.explanation == "Lists directory contents."
+
+def test_system_info_valid_data():
+    """
+    Test that a SystemInfo object can be created with valid data.
+    """
+    system_info = SystemInfo(
+        os_name="Linux",
+        shell="bash",
+        cwd="/home/user",
+        architecture="x86_64",
+        python_version="3.9.7"
+    )
+    assert system_info.os_name == "Linux"
+    assert system_info.shell == "bash"
+    assert system_info.cwd == "/home/user"
+    assert system_info.architecture == "x86_64"
+    assert system_info.python_version == "3.9.7"
+
+def test_system_info_valid_data_no_python_version():
+    """
+    Test that a SystemInfo object can be created without python_version (optional field).
+    """
+    system_info = SystemInfo(
+        os_name="Windows",
+        shell="cmd.exe",
+        cwd="C:\\Users\\User",
+        architecture="AMD64"
+    )
+    assert system_info.os_name == "Windows"
+    assert system_info.shell == "cmd.exe"
+    assert system_info.cwd == "C:\\Users\\User"
+    assert system_info.architecture == "AMD64"
+    assert system_info.python_version is None
+
+def test_system_info_missing_os_name():
+    """
+    Test that ValidationError is raised when 'os_name' field is missing.
+    """
+    with pytest.raises(ValidationError) as exc_info:
+        SystemInfo(shell="bash", cwd="/home/user", architecture="x86_64")
+    assert "Field required" in str(exc_info.value)
+    assert "os_name" in str(exc_info.value)
+
+def test_system_info_incorrect_os_name_type():
+    """
+    Test that ValidationError is raised when 'os_name' field has incorrect type.
+    """
+    with pytest.raises(ValidationError) as exc_info:
+        SystemInfo(os_name=123, shell="bash", cwd="/home/user", architecture="x86_64")
+    assert "Input should be a valid string" in str(exc_info.value)
+    assert "os_name" in str(exc_info.value)
+
+def test_system_info_missing_shell():
+    """
+    Test that ValidationError is raised when 'shell' field is missing.
+    """
+    with pytest.raises(ValidationError) as exc_info:
+        SystemInfo(os_name="Linux", cwd="/home/user", architecture="x86_64")
+    assert "Field required" in str(exc_info.value)
+    assert "shell" in str(exc_info.value)
+
+def test_system_info_incorrect_shell_type():
+    """
+    Test that ValidationError is raised when 'shell' field has incorrect type.
+    """
+    with pytest.raises(ValidationError) as exc_info:
+        SystemInfo(os_name="Linux", shell=123, cwd="/home/user", architecture="x86_64")
+    assert "Input should be a valid string" in str(exc_info.value)
+    assert "shell" in str(exc_info.value)
+
+def test_system_info_missing_cwd():
+    """
+    Test that ValidationError is raised when 'cwd' field is missing.
+    """
+    with pytest.raises(ValidationError) as exc_info:
+        SystemInfo(os_name="Linux", shell="bash", architecture="x86_64")
+    assert "Field required" in str(exc_info.value)
+    assert "cwd" in str(exc_info.value)
+
+def test_system_info_incorrect_cwd_type():
+    """
+    Test that ValidationError is raised when 'cwd' field has incorrect type.
+    """
+    with pytest.raises(ValidationError) as exc_info:
+        SystemInfo(os_name="Linux", shell="bash", cwd=123, architecture="x86_64")
+    assert "Input should be a valid string" in str(exc_info.value)
+    assert "cwd" in str(exc_info.value)
+
+def test_system_info_missing_architecture():
+    """
+    Test that ValidationError is raised when 'architecture' field is missing.
+    """
+    with pytest.raises(ValidationError) as exc_info:
+        SystemInfo(os_name="Linux", shell="bash", cwd="/home/user")
+    assert "Field required" in str(exc_info.value)
+    assert "architecture" in str(exc_info.value)
+
+def test_system_info_incorrect_architecture_type():
+    """
+    Test that ValidationError is raised when 'architecture' field has incorrect type.
+    """
+    with pytest.raises(ValidationError) as exc_info:
+        SystemInfo(os_name="Linux", shell="bash", cwd="/home/user", architecture=123)
+    assert "Input should be a valid string" in str(exc_info.value)
+    assert "architecture" in str(exc_info.value)
+
+def test_system_info_incorrect_python_version_type():
+    """
+    Test that ValidationError is raised when 'python_version' field has incorrect type.
+    """
+    with pytest.raises(ValidationError) as exc_info:
+        SystemInfo(os_name="Linux", shell="bash", cwd="/home/user", architecture="x86_64", python_version=123)
+    assert "Input should be a valid string" in str(exc_info.value)
+    assert "python_version" in str(exc_info.value)
+
+def test_ai_context_valid_data_with_system_info():
+    """
+    Test that an AIContext object can be created with valid SystemInfo.
+    """
+    system_info = SystemInfo(
+        os_name="macOS",
+        shell="zsh",
+        cwd="/Users/user/project",
+        architecture="arm64",
+        python_version="3.10.5"
+    )
+    ai_context = AIContext(system_info=system_info)
+    assert ai_context.system_info == system_info
+
+def test_ai_context_valid_data_without_system_info():
+    """
+    Test that an AIContext object can be created without system_info (optional field).
+    """
+    ai_context = AIContext()
+    assert ai_context.system_info is None
+
+def test_ai_context_incorrect_system_info_type():
+    """
+    Test that ValidationError is raised when 'system_info' field has incorrect type.
+    """
+    with pytest.raises(ValidationError) as exc_info:
+        AIContext(system_info="not a SystemInfo object")
+    assert "Input should be a valid dictionary or instance of SystemInfo" in str(exc_info.value)
+    assert "system_info" in str(exc_info.value)
