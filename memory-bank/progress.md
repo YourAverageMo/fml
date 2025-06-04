@@ -48,8 +48,6 @@ Tasks are managed as individual Markdown files in the `tasks/` directory (`task_
 
 **Task Queue:**
 
-- Task 007: Cross-Platform Testing
-- Task 016: Integration Tests
 - Task 026: Investigate Performance Issues from Unnecessary AI Provider Imports
 
 **Completed Tasks:**
@@ -67,7 +65,7 @@ Tasks are managed as individual Markdown files in the `tasks/` directory (`task_
 - Task 021: Test Gemini Service Implementation
 - Task 022: Test Pydantic Schemas
 - Task 023: Test Output Formatter
-- Task 024: Test \_initialize_ai_service Function
+- Task 024: Test _initialize_ai_service Function
 - Task 005: Clipboard Integration
 - Task 015: Test Clipboard Integration
 - Task 006: Error Handling & Refinement
@@ -75,6 +73,8 @@ Tasks are managed as individual Markdown files in the `tasks/` directory (`task_
 
 **Removed Tasks:**
 
+- Task 016: Integration Tests (Duplicate of work covered by other tests)
+- Task 007: Cross-Platform Testing (Primarily manuel testing)
 - Task 004: Response Parsing & Display (Duplicate of work covered by Task 022 and Task 023 implementations)
 - Task 010: Test API Key Management (Covered by Task 024 testing `_initialize_ai_service` function)
 - Task 011: Mock AI Service (Covered by existing `AIService` abstraction and related tests)
