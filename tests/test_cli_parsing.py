@@ -6,6 +6,8 @@ from unittest.mock import patch, MagicMock
 # Import the main function and the helper function from the application
 from fml.__main__ import main, _initialize_ai_service
 from fml.ai_providers.gemini_service import GeminiModels
+from fml.schemas import AIContext, SystemInfo
+from fml.ai_service import AIServiceError
 
 
 @pytest.fixture
@@ -29,7 +31,22 @@ def mock_sys_exit():
 
 
 @pytest.fixture
-def mock_initialize_ai_service():
+def mock_ai_context():
+    """Provides a mock AIContext object for testing."""
+    return AIContext(
+        query="test query",
+        system_info=SystemInfo(
+            os_name="test_os",
+            shell="test_shell",
+            cwd="/test/cwd",
+            architecture="test_arch",
+            python_version="test_python_version"
+        )
+    )
+
+
+@pytest.fixture
+def mock_initialize_ai_service(mock_ai_context):
     """Fixture to mock _initialize_ai_service to isolate CLI parsing tests."""
     with patch('fml.__main__._initialize_ai_service') as mock_init:
         mock_service = MagicMock()
@@ -68,17 +85,20 @@ def test_main_no_query_prints_help_and_exits(mock_sys_argv, mock_sys_exit, capsy
 
 def test_main_with_query_and_default_model(mock_sys_argv, mock_sys_exit,
                                            mock_initialize_ai_service,
-                                           mock_output_formatter, capsys):
+                                           mock_output_formatter, capsys,
+                                           mock_ai_context):
     """
     Test main() with a query and verifies default model is used.
     """
     sys.argv = ['fml', 'how do I list files?']
-    main()
+    # Mock get_system_info to return a consistent SystemInfo object
+    with patch('fml.__main__.get_system_info', return_value=mock_ai_context.system_info):
+        main()
     mock_sys_exit.assert_not_called()  # Should not exit on valid query
     mock_initialize_ai_service.assert_called_once_with(
         GeminiModels.GEMINI_1_5_FLASH.value)
     mock_initialize_ai_service.return_value.generate_command.assert_called_once_with(
-        "how do I list files?")
+        "how do I list files?", mock_ai_context)
     mock_output_formatter.return_value.format_response.assert_called_once()
     captured = capsys.readouterr()
     assert "Formatted Output" in captured.out
@@ -86,16 +106,18 @@ def test_main_with_query_and_default_model(mock_sys_argv, mock_sys_exit,
 
 def test_main_with_query_and_specified_model(mock_sys_argv, mock_sys_exit,
                                              mock_initialize_ai_service,
-                                             mock_output_formatter, capsys):
+                                             mock_output_formatter, capsys,
+                                             mock_ai_context):
     """
     Test main() with a query and a specified model.
     """
     sys.argv = ['fml', '--model', 'gemini-1.0-pro', 'show docker images']
-    main()
+    with patch('fml.__main__.get_system_info', return_value=mock_ai_context.system_info):
+        main()
     mock_sys_exit.assert_not_called()
     mock_initialize_ai_service.assert_called_once_with('gemini-1.0-pro')
     mock_initialize_ai_service.return_value.generate_command.assert_called_once_with(
-        "show docker images")
+        "show docker images", mock_ai_context)
     mock_output_formatter.return_value.format_response.assert_called_once()
     captured = capsys.readouterr()
     assert "Formatted Output" in captured.out
@@ -103,17 +125,19 @@ def test_main_with_query_and_specified_model(mock_sys_argv, mock_sys_exit,
 
 def test_main_with_multi_word_query(mock_sys_argv, mock_sys_exit,
                                     mock_initialize_ai_service,
-                                    mock_output_formatter, capsys):
+                                    mock_output_formatter, capsys,
+                                    mock_ai_context):
     """
     Test main() with a multi-word query that argparse should join.
     """
     sys.argv = ['fml', 'git', 'commit', '-m', 'initial commit']
-    main()
+    with patch('fml.__main__.get_system_info', return_value=mock_ai_context.system_info):
+        main()
     mock_sys_exit.assert_not_called()
     mock_initialize_ai_service.assert_called_once_with(
         GeminiModels.GEMINI_1_5_FLASH.value)
     mock_initialize_ai_service.return_value.generate_command.assert_called_once_with(
-        "git commit -m initial commit")
+        "git commit -m initial commit", mock_ai_context)
     captured = capsys.readouterr()
     assert "Formatted Output" in captured.out
 
@@ -122,10 +146,10 @@ def test_main_handles_ai_service_runtime_error(mock_sys_argv, mock_sys_exit,
                                                 mock_initialize_ai_service,
                                                 capsys):
     """
-    Test main() handles RuntimeError from _initialize_ai_service.
+    Test main() handles AIServiceError from _initialize_ai_service.
     """
     sys.argv = ['fml', 'some query']
-    mock_initialize_ai_service.side_effect = RuntimeError("API key not set.")
+    mock_initialize_ai_service.side_effect = AIServiceError("API key not set.")
     with pytest.raises(SystemExit) as excinfo:
         main()
     mock_sys_exit.assert_called_once_with(1)
