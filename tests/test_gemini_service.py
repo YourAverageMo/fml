@@ -1,6 +1,7 @@
 import pytest
 from unittest.mock import MagicMock, patch, mock_open
-from fml.ai_providers.gemini_service import GeminiService, GeminiModels
+from fml.ai_providers.gemini_service import GeminiService
+from fml.ai_providers.models import MODELS
 from fml.schemas import AICommandResponse, AIContext, SystemInfo
 from fml.ai_service import AIServiceError
 from google import genai
@@ -19,12 +20,6 @@ def mock_genai_client():
         yield mock_client_class
 
 
-@pytest.fixture
-def mock_system_instruction_file():
-    """Fixture to mock reading the system instruction file."""
-    with patch('builtins.open',
-               mock_open(read_data="mock system instruction")) as m:
-        yield m
 
 
 @pytest.fixture
@@ -37,36 +32,26 @@ def mock_ai_context():
                                             python_version="3.9.0"))
 
 
-def test_gemini_service_initialization(mock_genai_client,
-                                       mock_system_instruction_file):
+def test_gemini_service_initialization(mock_genai_client):
     """Verify that GeminiService initializes correctly."""
     api_key = "test_gemini_api_key"
-    system_instruction_path = "/path/to/gemini_prompt.txt"
-    model = GeminiModels.GEMINI_1_5_FLASH.value
+    system_instruction_content = "mock system instruction"
+    model = "gemini-1.5-flash"
 
-    service = GeminiService(api_key, system_instruction_path, model)
+    service = GeminiService(api_key, system_instruction_content, model)
 
     # Assert that genai.Client was called with the correct api_key
     mock_genai_client.assert_called_once_with(api_key=api_key)
     assert service.model_name == model
     assert service.system_instruction == "mock system instruction"
-    mock_system_instruction_file.assert_called_once_with(
-        system_instruction_path, "r")
-
-
-def test_gemini_service_get_supported_models():
-    """Verify that get_supported_models returns the correct list."""
-    expected_models = [model.value for model in GeminiModels]
-    assert GeminiService.get_supported_models() == expected_models
 
 
 def test_gemini_service_generate_command_success(mock_genai_client,
-                                                 mock_system_instruction_file,
                                                  mock_ai_context):
     """Verify generate_command successfully calls API and parses response."""
     api_key = "test_gemini_api_key"
-    system_instruction_path = "/path/to/gemini_prompt.txt"
-    model = GeminiModels.GEMINI_1_5_PRO.value
+    system_instruction_content = "mock system instruction"
+    model = "gemini-1.5-pro"
     query = "how to list docker containers"
 
     mock_response_text = '{"explanation": "Lists all Docker containers.", "flags": [], "command": "docker ps -a"}'
@@ -77,7 +62,7 @@ def test_gemini_service_generate_command_success(mock_genai_client,
     mock_client_instance = mock_genai_client.return_value
     mock_client_instance.models.generate_content.return_value = mock_api_response
 
-    service = GeminiService(api_key, system_instruction_path, model)
+    service = GeminiService(api_key, system_instruction_content, model)
     response = service.generate_command(query, mock_ai_context)
 
     expected_system_info_json = mock_ai_context.system_info.model_dump_json(
@@ -103,11 +88,11 @@ def test_gemini_service_generate_command_success(mock_genai_client,
 
 
 def test_gemini_service_generate_command_api_error(
-        mock_genai_client, mock_system_instruction_file, mock_ai_context):
+        mock_genai_client, mock_ai_context):
     """Verify generate_command handles APIError."""
     api_key = "test_gemini_api_key"
-    system_instruction_path = "/path/to/gemini_prompt.txt"
-    model = GeminiModels.GEMINI_1_5_FLASH.value
+    system_instruction_content = "mock system instruction"
+    model = "gemini-1.5-flash"
     query = "some query"
 
     mock_client_instance = mock_genai_client.return_value
@@ -120,7 +105,7 @@ def test_gemini_service_generate_command_api_error(
             }
         })
 
-    service = GeminiService(api_key, system_instruction_path, model)
+    service = GeminiService(api_key, system_instruction_content, model)
     with pytest.raises(
             AIServiceError,
             match=
@@ -129,18 +114,18 @@ def test_gemini_service_generate_command_api_error(
 
 
 def test_gemini_service_generate_command_unexpected_error(
-        mock_genai_client, mock_system_instruction_file, mock_ai_context):
+        mock_genai_client, mock_ai_context):
     """Verify generate_command handles unexpected errors."""
     api_key = "test_gemini_api_key"
-    system_instruction_path = "/path/to/gemini_prompt.txt"
-    model = GeminiModels.GEMINI_1_5_PRO.value
+    system_instruction_content = "mock system instruction"
+    model = "gemini-1.5-pro"
     query = "another query"
 
     mock_client_instance = mock_genai_client.return_value
     mock_client_instance.models.generate_content.side_effect = Exception(
         "Network connection lost")
 
-    service = GeminiService(api_key, system_instruction_path, model)
+    service = GeminiService(api_key, system_instruction_content, model)
     with pytest.raises(
             AIServiceError,
             match=
@@ -150,11 +135,11 @@ def test_gemini_service_generate_command_unexpected_error(
 
 
 def test_gemini_service_generate_command_invalid_json_response(
-        mock_genai_client, mock_system_instruction_file, mock_ai_context):
+        mock_genai_client, mock_ai_context):
     """Verify generate_command handles invalid JSON response."""
     api_key = "test_gemini_api_key"
-    system_instruction_path = "/path/to/gemini_prompt.txt"
-    model = GeminiModels.GEMINI_1_5_FLASH.value
+    system_instruction_content = "mock system instruction"
+    model = "gemini-1.5-flash"
     query = "invalid json test"
 
     mock_api_response = MagicMock(spec=GenerateContentResponse)
@@ -163,7 +148,7 @@ def test_gemini_service_generate_command_invalid_json_response(
     mock_client_instance = mock_genai_client.return_value
     mock_client_instance.models.generate_content.return_value = mock_api_response
 
-    service = GeminiService(api_key, system_instruction_path, model)
+    service = GeminiService(api_key, system_instruction_content, model)
     with pytest.raises(
             AIServiceError,
             match=

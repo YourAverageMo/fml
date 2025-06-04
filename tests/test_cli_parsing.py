@@ -5,7 +5,7 @@ from unittest.mock import patch, MagicMock
 
 # Import the main function and the helper function from the application
 from fml.__main__ import main, _initialize_ai_service
-from fml.ai_providers.gemini_service import GeminiModels
+from fml.ai_providers.models import MODELS
 from fml.schemas import AIContext, SystemInfo
 from fml.ai_service import AIServiceError
 
@@ -96,7 +96,7 @@ def test_main_with_query_and_default_model(mock_sys_argv, mock_sys_exit,
         main()
     mock_sys_exit.assert_not_called()  # Should not exit on valid query
     mock_initialize_ai_service.assert_called_once_with(
-        GeminiModels.GEMINI_1_5_FLASH.value)
+        "gemini-1.5-flash")
     mock_initialize_ai_service.return_value.generate_command.assert_called_once_with(
         "how do I list files?", mock_ai_context)
     mock_output_formatter.return_value.format_response.assert_called_once()
@@ -135,7 +135,7 @@ def test_main_with_multi_word_query(mock_sys_argv, mock_sys_exit,
         main()
     mock_sys_exit.assert_not_called()
     mock_initialize_ai_service.assert_called_once_with(
-        GeminiModels.GEMINI_1_5_FLASH.value)
+        "gemini-1.5-flash")
     mock_initialize_ai_service.return_value.generate_command.assert_called_once_with(
         "git commit -m initial commit", mock_ai_context)
     captured = capsys.readouterr()

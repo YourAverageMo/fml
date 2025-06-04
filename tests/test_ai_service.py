@@ -19,9 +19,6 @@ class ConcreteAIService(AIService):
             command="mocked command"
         )
 
-    @staticmethod
-    def get_supported_models() -> List[str]:
-        return ["mock-model-1", "mock-model-2"]
 
 
 @pytest.fixture
@@ -45,7 +42,7 @@ def test_ai_service_is_abstract():
     with pytest.raises(
             TypeError,
             match=
-            "Can't instantiate abstract class AIService without an implementation for abstract methods '_generate_command_internal', 'get_supported_models'"
+            "Can't instantiate abstract class AIService without an implementation for abstract method '_generate_command_internal'"
     ):
         AIService("key", "path", "model")
 
@@ -53,15 +50,14 @@ def test_ai_service_is_abstract():
 def test_ai_service_abstract_methods():
     """Verify that abstract methods are defined."""
     assert '_generate_command_internal' in AIService.__abstractmethods__
-    assert 'get_supported_models' in AIService.__abstractmethods__
 
 
 def test_ai_service_initialization():
     """Verify that AIService initializes attributes correctly."""
-    service = ConcreteAIService("test_api_key", "/path/to/prompt.txt",
+    service = ConcreteAIService("test_api_key", "test system instruction content",
                                 "test-model")
     assert service.api_key == "test_api_key"
-    assert service.system_instruction_path == "/path/to/prompt.txt"
+    assert service.system_instruction_content == "test system instruction content"
     assert service.model == "test-model"
 
 
@@ -70,4 +66,3 @@ def test_concrete_ai_service_implements_abstract_methods(mock_ai_context):
     service = ConcreteAIService("key", "path", "model")
     response = service.generate_command("test query", mock_ai_context)
     assert response.command == "mocked command"
-    assert service.get_supported_models() == ["mock-model-1", "mock-model-2"]
