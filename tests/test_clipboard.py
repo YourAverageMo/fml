@@ -10,12 +10,12 @@ def mock_ai_service_success():
     """
     Mocks the AI service to return a successful AICommandResponse.
     """
-    with patch('fml.__main__._initialize_ai_service') as mock_init_service:
+    with patch("fml.__main__._initialize_ai_service") as mock_init_service:
         mock_service_instance = MagicMock()
         mock_service_instance.generate_command.return_value = AICommandResponse(
             explanation="This is a test explanation.",
             flags=[{"flag": "--test", "description": "A test flag."}],
-            command="test command --test"
+            command="test command --test",
         )
         mock_init_service.return_value = mock_service_instance
         yield mock_init_service
@@ -45,6 +45,7 @@ def test_clipboard_copy_failure(mock_ai_service_success, monkeypatch, capsys):
     """
     Tests that a warning is displayed if clipboard copying fails.
     """
+
     def mock_copy_fail(text):
         raise pyperclip.PyperclipException("Clipboard not available")
 
@@ -57,4 +58,6 @@ def test_clipboard_copy_failure(mock_ai_service_success, monkeypatch, capsys):
 
     # Verify the warning message is printed to stderr
     captured = capsys.readouterr()
-    assert "Warning: Could not copy to clipboard: Clipboard not available" in captured.err
+    assert (
+        "Warning: Could not copy to clipboard: Clipboard not available" in captured.err
+    )

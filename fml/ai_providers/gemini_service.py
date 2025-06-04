@@ -16,12 +16,16 @@ class GeminiService(AIService):
         self.model_name = model
         self.system_instruction = system_instruction_content
 
-    def _generate_command_internal(self, query: str, ai_context: AIContext) -> AICommandResponse:
+    def _generate_command_internal(
+        self, query: str, ai_context: AIContext
+    ) -> AICommandResponse:
         contents_parts = [query]
 
         if ai_context.system_info:
             system_info_json = ai_context.system_info.model_dump_json(indent=2)
-            contents_parts.append(f"\n\nUser's System Information:\n```json\n{system_info_json}\n```")
+            contents_parts.append(
+                f"\n\nUser's System Information:\n```json\n{system_info_json}\n```"
+            )
 
         try:
             response: GenerateContentResponse = self.client.models.generate_content(

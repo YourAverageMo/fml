@@ -12,7 +12,7 @@ from google.genai.errors import APIError
 @pytest.fixture
 def mock_genai_client():
     """Fixture to mock the genai.Client and its generate_content method."""
-    with patch('google.genai.Client') as mock_client_class:
+    with patch("google.genai.Client") as mock_client_class:
         mock_client_instance = MagicMock()
         mock_client_class.return_value = mock_client_instance
         # Mock the models attribute of the client instance
@@ -20,16 +20,18 @@ def mock_genai_client():
         yield mock_client_class
 
 
-
-
 @pytest.fixture
 def mock_ai_context():
     """Fixture to provide a mock AIContext object."""
-    return AIContext(system_info=SystemInfo(os_name="test_os",
-                                            shell="test_shell",
-                                            cwd="/test/cwd",
-                                            architecture="test_arch",
-                                            python_version="3.9.0"))
+    return AIContext(
+        system_info=SystemInfo(
+            os_name="test_os",
+            shell="test_shell",
+            cwd="/test/cwd",
+            architecture="test_arch",
+            python_version="3.9.0",
+        )
+    )
 
 
 def test_gemini_service_initialization(mock_genai_client):
@@ -46,8 +48,7 @@ def test_gemini_service_initialization(mock_genai_client):
     assert service.system_instruction == "mock system instruction"
 
 
-def test_gemini_service_generate_command_success(mock_genai_client,
-                                                 mock_ai_context):
+def test_gemini_service_generate_command_success(mock_genai_client, mock_ai_context):
     """Verify generate_command successfully calls API and parses response."""
     api_key = "test_gemini_api_key"
     system_instruction_content = "mock system instruction"
@@ -65,11 +66,10 @@ def test_gemini_service_generate_command_success(mock_genai_client,
     service = GeminiService(api_key, system_instruction_content, model)
     response = service.generate_command(query, mock_ai_context)
 
-    expected_system_info_json = mock_ai_context.system_info.model_dump_json(
-        indent=2)
+    expected_system_info_json = mock_ai_context.system_info.model_dump_json(indent=2)
     expected_contents = [
         query,
-        f"\n\nUser's System Information:\n```json\n{expected_system_info_json}\n```"
+        f"\n\nUser's System Information:\n```json\n{expected_system_info_json}\n```",
     ]
 
     mock_client_instance.models.generate_content.assert_called_once_with(
@@ -87,8 +87,7 @@ def test_gemini_service_generate_command_success(mock_genai_client,
     assert response.flags == []
 
 
-def test_gemini_service_generate_command_api_error(
-        mock_genai_client, mock_ai_context):
+def test_gemini_service_generate_command_api_error(mock_genai_client, mock_ai_context):
     """Verify generate_command handles APIError."""
     api_key = "test_gemini_api_key"
     system_instruction_content = "mock system instruction"
@@ -98,23 +97,20 @@ def test_gemini_service_generate_command_api_error(
     mock_client_instance = mock_genai_client.return_value
     mock_client_instance.models.generate_content.side_effect = APIError(
         "Rate limit exceeded",
-        response_json={
-            "error": {
-                "message": "Rate limit exceeded",
-                "code": 429
-            }
-        })
+        response_json={"error": {"message": "Rate limit exceeded", "code": 429}},
+    )
 
     service = GeminiService(api_key, system_instruction_content, model)
     with pytest.raises(
-            AIServiceError,
-            match=
-            "API Error: Rate limit exceeded \\(Code: Rate limit exceeded\\)"):
+        AIServiceError,
+        match="API Error: Rate limit exceeded \\(Code: Rate limit exceeded\\)",
+    ):
         service.generate_command(query, mock_ai_context)
 
 
 def test_gemini_service_generate_command_unexpected_error(
-        mock_genai_client, mock_ai_context):
+    mock_genai_client, mock_ai_context
+):
     """Verify generate_command handles unexpected errors."""
     api_key = "test_gemini_api_key"
     system_instruction_content = "mock system instruction"
@@ -123,19 +119,20 @@ def test_gemini_service_generate_command_unexpected_error(
 
     mock_client_instance = mock_genai_client.return_value
     mock_client_instance.models.generate_content.side_effect = Exception(
-        "Network connection lost")
+        "Network connection lost"
+    )
 
     service = GeminiService(api_key, system_instruction_content, model)
     with pytest.raises(
-            AIServiceError,
-            match=
-            "An unexpected error occurred during AI interaction: Network connection lost"
+        AIServiceError,
+        match="An unexpected error occurred during AI interaction: Network connection lost",
     ):
         service.generate_command(query, mock_ai_context)
 
 
 def test_gemini_service_generate_command_invalid_json_response(
-        mock_genai_client, mock_ai_context):
+    mock_genai_client, mock_ai_context
+):
     """Verify generate_command handles invalid JSON response."""
     api_key = "test_gemini_api_key"
     system_instruction_content = "mock system instruction"
@@ -150,8 +147,7 @@ def test_gemini_service_generate_command_invalid_json_response(
 
     service = GeminiService(api_key, system_instruction_content, model)
     with pytest.raises(
-            AIServiceError,
-            match=
-            "AI Response Format Error: The AI returned an unexpected response format. Details: 1 validation error for AICommandResponse"
+        AIServiceError,
+        match="AI Response Format Error: The AI returned an unexpected response format. Details: 1 validation error for AICommandResponse",
     ):
         service.generate_command(query, mock_ai_context)

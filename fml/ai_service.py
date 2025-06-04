@@ -7,6 +7,7 @@ from fml.schemas import AICommandResponse, AIContext
 
 class AIServiceError(Exception):
     """Custom exception for AI service-related errors."""
+
     pass
 
 
@@ -22,7 +23,9 @@ class AIService(ABC):
         self.model = model
 
     @abstractmethod
-    def _generate_command_internal(self, query: str, ai_context: AIContext) -> AICommandResponse:
+    def _generate_command_internal(
+        self, query: str, ai_context: AIContext
+    ) -> AICommandResponse:
         """
         Internal method to generate a CLI command based on a natural language query.
         Concrete implementations should implement their specific API calls here.
@@ -51,10 +54,16 @@ class AIService(ABC):
             return self._generate_command_internal(query, ai_context)
         except ConnectionError as e:
             # Catch network-related errors
-            raise AIServiceError(f"Network Error: Could not connect to the AI service. Please check your internet connection. Details: {e}") from e
+            raise AIServiceError(
+                f"Network Error: Could not connect to the AI service. Please check your internet connection. Details: {e}"
+            ) from e
         except ValidationError as e:
             # Catch Pydantic validation errors if AI response is malformed
-            raise AIServiceError(f"AI Response Format Error: The AI returned an unexpected response format. Details: {e}") from e
+            raise AIServiceError(
+                f"AI Response Format Error: The AI returned an unexpected response format. Details: {e}"
+            ) from e
         except Exception as e:
             # Catch any other unexpected errors
-            raise AIServiceError(f"An unexpected error occurred during AI interaction: {e}") from e
+            raise AIServiceError(
+                f"An unexpected error occurred during AI interaction: {e}"
+            ) from e

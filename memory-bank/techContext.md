@@ -41,4 +41,4 @@
 - **`os.environ`:** Standard Python approach for secure environment variable access.
 - **`google-generativeai` SDK:** Direct interaction with the Gemini API via its official SDK. When handling API errors, `google.genai.errors.APIError` should be caught.
 - **`pyperclip`:** Utilized for its cross-platform capabilities in clipboard management.
-- **Git Commit Messages:** Follow the format `type: subject (Task_XXX)`. Do not include "update memory bank" in commit messages.
+- **Git Commit Messages:** Follow the format `type: subject (Task_XXX)`. Do not include "update memory bank" in commit messages. only include task number if task exists.

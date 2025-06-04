@@ -12,13 +12,12 @@ class ConcreteAIService(AIService):
     def __init__(self, api_key: str, system_instruction_path: str, model: str):
         super().__init__(api_key, system_instruction_path, model)
 
-    def _generate_command_internal(self, query: str, ai_context: AIContext) -> AICommandResponse:
+    def _generate_command_internal(
+        self, query: str, ai_context: AIContext
+    ) -> AICommandResponse:
         return AICommandResponse(
-            explanation="mocked explanation",
-            flags=[],
-            command="mocked command"
+            explanation="mocked explanation", flags=[], command="mocked command"
         )
-
 
 
 @pytest.fixture
@@ -31,8 +30,8 @@ def mock_ai_context():
             shell="test_shell",
             cwd="/test/cwd",
             architecture="test_arch",
-            python_version="test_python_version"
-        )
+            python_version="test_python_version",
+        ),
     )
 
 
@@ -40,22 +39,22 @@ def test_ai_service_is_abstract():
     """Verify that AIService is an abstract base class."""
     assert issubclass(AIService, ABC)
     with pytest.raises(
-            TypeError,
-            match=
-            "Can't instantiate abstract class AIService without an implementation for abstract method '_generate_command_internal'"
+        TypeError,
+        match="Can't instantiate abstract class AIService without an implementation for abstract method '_generate_command_internal'",
     ):
         AIService("key", "path", "model")
 
 
 def test_ai_service_abstract_methods():
     """Verify that abstract methods are defined."""
-    assert '_generate_command_internal' in AIService.__abstractmethods__
+    assert "_generate_command_internal" in AIService.__abstractmethods__
 
 
 def test_ai_service_initialization():
     """Verify that AIService initializes attributes correctly."""
-    service = ConcreteAIService("test_api_key", "test system instruction content",
-                                "test-model")
+    service = ConcreteAIService(
+        "test_api_key", "test system instruction content", "test-model"
+    )
     assert service.api_key == "test_api_key"
     assert service.system_instruction_content == "test system instruction content"
     assert service.model == "test-model"

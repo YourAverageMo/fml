@@ -24,7 +24,7 @@ def get_system_info() -> SystemInfo:
         # We need to extract the basename from this path.
         comspec_path = os.environ.get("COMSPEC", "cmd.exe")
         # Normalize path separators for cross-platform compatibility in tests
-        normalized_path = comspec_path.replace('\\', '/')
+        normalized_path = comspec_path.replace("\\", "/")
         shell = os.path.basename(normalized_path)
         # Further refine for common Windows shells if needed, e.g., powershell.exe vs pwsh.exe
         if "powershell.exe" in shell.lower() or "pwsh.exe" in shell.lower():
@@ -40,10 +40,10 @@ def get_system_info() -> SystemInfo:
 
     return SystemInfo(
         os_name=os_name,
-        shell=shell, # shell now directly holds the basename
+        shell=shell,  # shell now directly holds the basename
         cwd=cwd,
         architecture=architecture,
-        python_version=python_version
+        python_version=python_version,
     )
 
 

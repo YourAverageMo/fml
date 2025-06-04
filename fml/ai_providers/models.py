@@ -1,11 +1,13 @@
 from pydantic import BaseModel
 
+
 class ModelProviderDetails(BaseModel):
     provider: str
     service: str
     env_var: str
     prompt_module: str
     prompt_variable: str
+
 
 MODELS = {
     "gemini-1.5-flash": ModelProviderDetails(
