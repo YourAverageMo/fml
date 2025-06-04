@@ -2,7 +2,7 @@
 
 ## 1. Current Work Focus
 
-The current focus is on implementing comprehensive tests for the new additions to the project, aiming for 100% or near 100% test coverage, including edge cases. Tasks 022 (Test Pydantic Schemas), 023 (Test Output Formatter), 024 (Test _initialize_ai_service Function), 005 (Clipboard Integration), 015 (Test Clipboard Integration), and 006 (Error Handling & Refinement) have been completed.
+The current focus is on enhancing the LLM context with system information and ensuring all new additions are thoroughly tested, aiming for 100% or near 100% test coverage, including edge cases.
 
 ## 2. Recent Changes
 
@@ -33,6 +33,13 @@ The current focus is on implementing comprehensive tests for the new additions t
   - Introduced `AIServiceError` custom exception for consistent error reporting.
   - Modified `GeminiService` (`fml/ai_providers/gemini_service.py`) to implement `_generate_command_internal` and rely on the base class for common error handling.
   - Updated `fml/__main__.py` to catch `AIServiceError` for user-friendly error messages.
+- **Enhanced LLM Context with System Information (Task 025):**
+  - Defined `SystemInfo` and `AIContext` Pydantic models in `fml/schemas.py`.
+  - Created `fml/gather_system_info.py` with `get_system_info()` to collect system details.
+  - Modified `fml/ai_service.py` and `fml/ai_providers/gemini_service.py` to accept and pass `AIContext` to the AI model.
+  - Updated `fml/__main__.py` to gather system info, create `AIContext`, and pass it to `generate_command()`.
+  - Modified `fml/prompts/gemini_system_prompt.txt` to instruct the AI on using system context.
+  - Created `tests/test_gather_system_info.py` with `pytest` unit tests for `get_system_info()`, including mocking `platform` and `os` calls for various environments.
 
 ## 3. Next Steps
 

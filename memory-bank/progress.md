@@ -48,7 +48,6 @@ Tasks are managed as individual Markdown files in the `tasks/` directory (`task_
 
 **Task Queue:**
 
-- Task 025: Enhance LLM Context with System Information
 - Task 007: Cross-Platform Testing
 - Task 016: Integration Tests
 - Task 026: Investigate Performance Issues from Unnecessary AI Provider Imports
@@ -72,6 +71,7 @@ Tasks are managed as individual Markdown files in the `tasks/` directory (`task_
 - Task 005: Clipboard Integration
 - Task 015: Test Clipboard Integration
 - Task 006: Error Handling & Refinement
+- Task 025: Enhance LLM Context with System Information
 
 **Removed Tasks:**
 
