@@ -44,7 +44,9 @@ Tasks are managed as individual Markdown files in the `tasks/` directory (`task_
 
 ## 5. Current tasks, task queue, and completed tasks
 
-**Current Task:** None
+**Current Task:**
+
+- Task 027: Publish `fml` Package to PyPI
 
 **Task Queue:**
 

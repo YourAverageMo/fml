@@ -1,0 +1,37 @@
+# Task 027: Publish `fml` Package to PyPI
+
+**Priority:** High
+
+**Description:**
+Publish the `fml` Python package to PyPI using `uv publish` so users can install it via `uv tool install`. This involves building the package and then uploading the distribution files.
+
+**Dependencies:**
+
+- None (assuming `pyproject.toml` is correctly configured)
+
+**Implementation Details:**
+
+1.  **Ensure `pyproject.toml` is configured:**
+    *   Verify `[build-system]` is set to use `hatchling`.
+    *   Verify `[tool.hatch.build.targets.sdist]` and `[tool.hatch.build.targets.wheel]` exclude `tests/**`.
+    *   Verify `[tool.uv]` includes `package = true` and `no-sources = true`.
+    *   Ensure `version` and `description` in `[project]` are accurate.
+
+2.  **Publish the package:**
+    *   Use `uv publish`. This command will automatically build the package if it hasn't been built already.
+    *   Authentication: You will need to provide a PyPI token. It is recommended to set this as an environment variable: `export UV_PUBLISH_TOKEN="your_pypi_token_here"`. Alternatively, you can pass it directly with `--token`.
+
+    ```bash
+    uv publish
+    ```
+
+3.  **Verify installation:**
+    *   After successful publication, verify that the package can be installed and imported correctly using `uv run`. The `--no-project` flag ensures `uv` does not install from the local project directory, simulating a fresh install from PyPI.
+
+    ```bash
+    uv run --with fml --no-project -- python -c "import fml"
+    ```
+
+**Test Strategy:**
+1.  Confirm `uv publish` completes successfully without errors.
+2.  Run the `uv run --with fml --no-project -- python -c "import fml"` command and ensure it executes without import errors.

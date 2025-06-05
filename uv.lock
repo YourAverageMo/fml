@@ -88,9 +88,9 @@ wheels = [
 ]
 
 [[package]]
-name = "fml"
-version = "0.1.0"
-source = { virtual = "." }
+name = "fml-ai"
+version = "0.5.0"
+source = { editable = "." }
 dependencies = [
     { name = "google-genai" },
     { name = "pyperclip" },
