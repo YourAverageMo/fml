@@ -1,0 +1,22 @@
+# Task 028: Fix Windows Shell Detection
+
+**Priority:** High
+
+**Description:**
+On Windows, the application currently defaults to `cmd.exe` as the detected shell, even when other shells like Git Bash or PowerShell are in use. This task aims to enhance the system information gathering logic to accurately identify the active shell environment on Windows.
+
+**Dependencies:**
+
+- Task 025: Enhance LLM Context with System Information (already completed, provides context for `gather_system_info.py`)
+
+**Implementation Details:**
+- **Locate relevant code:** The shell detection logic is likely within `fml/gather_system_info.py`.
+- **Research Windows shell detection:** Investigate reliable methods for determining the current shell on Windows, considering various environments (e.g., VS Code integrated terminal, Git Bash, PowerShell, native `cmd`). This might involve:
+    - Checking specific environment variables (e.g., `SHELL`, `TERM`, `COMSPEC`, `PSModulePath`).
+    - Analyzing parent process information (though this can be complex and platform-specific).
+    - Using `os.getenv` to check for common shell-specific environment variables.
+- **Modify `get_system_info()`:** Update the `get_system_info()` function in `fml/gather_system_info.py` to implement the improved Windows shell detection logic. Ensure it gracefully handles cases where the shell cannot be definitively identified.
+- **Cross-platform compatibility:** Ensure the changes do not negatively impact shell detection on macOS or Linux.
+
+**Test Strategy:**
+- **Unit Tests:** Update and fix any broken unit tests after working change.

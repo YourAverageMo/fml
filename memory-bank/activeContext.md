@@ -35,9 +35,10 @@ The current focus is on enhancing the LLM context with system information and en
   - Introduced `AIServiceError` custom exception for consistent error reporting.
   - Modified `GeminiService` (`fml/ai_providers/gemini_service.py`) to implement `_generate_command_internal` and specifically handle `google.genai.errors.APIError`, relying on the base class for common error handling.
   - Updated `fml/__main__.py` to catch `AIServiceError` for user-friendly error messages.
-- **Enhanced LLM Context with System Information (Task 025):**
+- **Enhanced LLM Context with System Information (Task 025 & 028):**
   - Defined `SystemInfo` and `AIContext` Pydantic models in `fml/schemas.py`.
   - Created `fml/gather_system_info.py` with `get_system_info()` to collect system details.
+  - **Improved Windows Shell Detection (Task 028):** The `get_system_info()` function in `fml/gather_system_info.py` has been refined to accurately identify the active shell on Windows. It now prioritizes the `SHELL` environment variable, then checks for PowerShell via `PSModulePath`, and defaults to `unknown_shell` if neither is found, aligning with the project's requirements to not support `cmd.exe`.
   - Modified `fml/ai_service.py` and `fml/ai_providers/gemini_service.py` to accept and pass `AIContext` to the AI model.
   - Updated `fml/__main__.py` to gather system info, create `AIContext`, and pass it to `generate_command()`.
   - Modified `fml/prompts/gemini_system_prompt.txt` to instruct the AI on using system context.
@@ -53,7 +54,6 @@ The current focus is on enhancing the LLM context with system information and en
 
 The immediate next steps involve:
 
-- Enhancing LLM context with system information (Task 025).
 - Cross-platform testing (Task 007).
 - Integration tests (Task 016).
 

@@ -1,0 +1,23 @@
+# Task 029: Add Optional Color Output to Stdout
+
+**Priority:** Medium
+
+**Description:**
+Implement optional colorized output for the AI-generated command, explanation, and flag breakdown displayed in the terminal. Color output should be enabled by default and can be disabled via a new CLI argument `--no-color`.
+
+**Dependencies:**
+
+- Task 023: Test Output Formatter (already completed, provides context for `output_formatter.py`)
+
+**Implementation Details:**
+- **CLI Argument:** Add a new optional CLI argument `--no-color` to `fml/__main__.py` using `argparse`. This argument should set a flag (e.g., `enable_color`) that defaults to `True`.
+- **Colorization Library:** Research and select a suitable Python library for terminal colorization (e.g., `colorama`, `rich`, `termcolor`). `colorama` is a good lightweight option for basic ANSI escape code support on Windows.
+- **Modify `output_formatter.py`:**
+    - Update the `OutputFormatter` class in `fml/output_formatter.py` to accept a `color_enabled` parameter in its constructor.
+    - **Conditional Import:** Inside the `OutputFormatter.__init__` method, conditionally import the chosen colorization library (e.g., `colorama`) only if `color_enabled` is `True`. Store the colorization functions/objects as instance variables.
+    - Implement logic within the `format_response` method to apply ANSI escape codes for colors (e.g., for explanation, flags, and the command itself) only if `color_enabled` is `True` and the colorization library was successfully imported.
+    - Choose appropriate colors for different elements (e.g., green for command, blue for flags, default for explanation).
+- **Integrate in `fml/__main__.py`:** Pass the `color_enabled` flag from the CLI arguments to the `OutputFormatter` instance when it's initialized.
+
+**Test Strategy:**
+- **Unit Tests:** Update and fix any broken unit tests

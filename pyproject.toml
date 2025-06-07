@@ -1,7 +1,7 @@
 [project]
 name = "fml-ai"
 version = "0.5.0"
-description = "fml helps you remember CLI commands and flags with AI"
+description = "FML (forgot my line) terminal AI to help you remember cli commands and flags"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = ["google-genai>=1.18.0", "pyperclip>=1.9.0"]

@@ -63,8 +63,7 @@ def _initialize_ai_service(model_name: str) -> AIService:
 def main():
     parser = argparse.ArgumentParser(
         description="AI-Powered CLI Command Helper",
-        epilog=
-        "Example: fml 'how do i view the git diff for my current branch compared to main?'",
+        epilog="Example: fml 'how do i view the git diff for my current branch compared to main?'",
     )
     parser.add_argument(
         "query",
@@ -74,8 +73,9 @@ def main():
     parser.add_argument(
         "-m",
         "--model",
-        default=list(MODELS.keys())
-        [0],  # Use the first model in the MODELS dictionary as default
+        default=list(MODELS.keys())[
+            0
+        ],  # Use the first model in the MODELS dictionary as default
         help="Specify the AI model to use (e.g., 'gemini-1.5-flash').",
     )
 
@@ -97,8 +97,7 @@ def main():
     # Initialize AI service and generate command
     try:
         ai_service = _initialize_ai_service(args.model)
-        ai_command_response = ai_service.generate_command(
-            full_query, ai_context)
+        ai_command_response = ai_service.generate_command(full_query, ai_context)
     except (AIServiceError, ValueError) as e:
         print(f"Error: {e}", file=sys.stderr)
         sys.exit(1)

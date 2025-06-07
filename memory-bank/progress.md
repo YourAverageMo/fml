@@ -46,12 +46,15 @@ Tasks are managed as individual Markdown files in the `tasks/` directory (`task_
 
 **Current Task:**
 
-- Task 027: Publish `fml` Package to PyPI
+- None
 
 **Task Queue:**
 
+- Task 029: Add Optional Color Output to Stdout
+
 **Completed Tasks:**
 
+- Task 028: Fix Windows Shell Detection
 - Task 000: Initialize Memory Bank (Documentation)
 - Task 001: Setup & CLI Parsing
 - Task 008: Setup Testing Environment
@@ -71,6 +74,7 @@ Tasks are managed as individual Markdown files in the `tasks/` directory (`task_
 - Task 006: Error Handling & Refinement
 - Task 025: Enhance LLM Context with System Information
 - Task 026: Investigate Performance Issues from Unnecessary AI Provider Imports
+- Task 027: Publish `fml` Package to PyPI
 
 **Removed Tasks:**
 
