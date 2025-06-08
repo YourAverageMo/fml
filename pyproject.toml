@@ -4,7 +4,11 @@ version = "0.5.0"
 description = "FML (forgot my line) terminal AI to help you remember cli commands and flags"
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = ["google-genai>=1.18.0", "pyperclip>=1.9.0"]
+dependencies = [
+    "colorama>=0.4.6",
+    "google-genai>=1.18.0",
+ "pyperclip>=1.9.0",
+]
 
 [project.urls]
 Homepage = "https://github.com/YourAverageMo/fml"

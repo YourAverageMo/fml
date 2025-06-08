@@ -31,6 +31,7 @@
 - **External Libraries:**
   - `google-generativeai`: For interacting with the Google Gemini API. Note: `APIError` is found in `google.genai.errors`.
   - `pyperclip`: For cross-platform clipboard operations.
+  - `colorama`: For cross-platform colored terminal output.
 - **System Dependencies for `pyperclip` (Linux):** May require `xclip` or `xsel` to be installed on Linux systems.
 
 ## 5. Tool Usage Patterns

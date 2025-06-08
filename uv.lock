@@ -92,6 +92,7 @@ name = "fml-ai"
 version = "0.5.0"
 source = { editable = "." }
 dependencies = [
+    { name = "colorama" },
     { name = "google-genai" },
     { name = "pyperclip" },
 ]
@@ -103,6 +104,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
+    { name = "colorama", specifier = ">=0.4.6" },
     { name = "google-genai", specifier = ">=1.18.0" },
     { name = "pyperclip", specifier = ">=1.9.0" },
 ]

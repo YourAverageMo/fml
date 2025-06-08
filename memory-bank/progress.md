@@ -45,15 +45,13 @@ Tasks are managed as individual Markdown files in the `tasks/` directory (`task_
 ## 5. Current tasks, task queue, and completed tasks
 
 **Current Task:**
-
 - None
 
 **Task Queue:**
-
-- Task 029: Add Optional Color Output to Stdout
+- None
 
 **Completed Tasks:**
-
+- Task 029: Add Optional Color Output to Stdout
 - Task 028: Fix Windows Shell Detection
 - Task 000: Initialize Memory Bank (Documentation)
 - Task 001: Setup & CLI Parsing

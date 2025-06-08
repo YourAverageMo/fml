@@ -49,6 +49,10 @@ The current focus is on enhancing the LLM context with system information and en
   - Updated `fml/ai_providers/models.py` to include `prompt_module` and `prompt_variable` fields in `ModelProviderDetails` and updated the `MODELS` dictionary accordingly.
   - Modified `fml/__main__.py` to dynamically import the prompt module and retrieve the prompt string, passing it directly to the AI service.
   - Updated `fml/ai_service.py` and `fml/ai_providers/gemini_service.py` to accept `system_instruction_content` instead of `system_instruction_path`.
+- **Add Optional Color Output to Stdout (Task 029):**
+  - The `colorama` library has been added as a dependency.
+  - `fml/output_formatter.py` was modified to dynamically import `colorama.Fore` and `colorama.Style` only when color output is enabled, preventing unnecessary loading. It now applies colors (CYAN for explanation, YELLOW for flags, WHITE for flag descriptions, GREEN for command) to the output.
+  - `fml/__main__.py` was updated to include a `--no-color` argument, which controls whether color output is enabled. The `colorama.init` call was removed from `fml/__main__.py` as it's now handled conditionally within `OutputFormatter`.
 
 ## 3. Next Steps
 
