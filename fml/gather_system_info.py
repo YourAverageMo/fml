@@ -22,7 +22,8 @@ def get_system_info() -> SystemInfo:
         if shell:
             shell = os.path.basename(shell.replace("\\", "/"))
         else:
-            shell = "powershell.exe" if os.environ.get("PSModulePath") else "unknown_shell"
+            shell = "powershell.exe" if os.environ.get(
+                "PSModulePath") else "unknown_shell"
     else:
         shell = os.path.basename(shell) if shell else "unknown_shell"
 

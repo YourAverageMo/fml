@@ -101,7 +101,7 @@ def test_main_with_query_and_default_model(
     ):
         main()
     mock_sys_exit.assert_not_called()  # Should not exit on valid query
-    mock_initialize_ai_service.assert_called_once_with("gemini-1.5-flash")
+    mock_initialize_ai_service.assert_called_once_with("gemini-2.5-flash-preview-05-20")
     mock_initialize_ai_service.return_value.generate_command.assert_called_once_with(
         "how do I list files?", mock_ai_context
     )
@@ -153,7 +153,7 @@ def test_main_with_multi_word_query(
     ):
         main()
     mock_sys_exit.assert_not_called()
-    mock_initialize_ai_service.assert_called_once_with("gemini-1.5-flash")
+    mock_initialize_ai_service.assert_called_once_with("gemini-2.5-flash-preview-05-20")
     mock_initialize_ai_service.return_value.generate_command.assert_called_once_with(
         "git commit -m initial commit", mock_ai_context
     )

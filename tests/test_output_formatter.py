@@ -22,7 +22,7 @@ def test_format_response_standard_output(output_formatter):
     expected_output = (
         "Lists directory contents.\n\n-a: All files\n-l: Long listing format\n\nls -al"
     )
-    assert output_formatter.format_response(ai_response) == expected_output
+    assert output_formatter.format_response(ai_response, enable_color=False) == expected_output
 
 
 def test_format_response_no_flags(output_formatter):
@@ -33,7 +33,7 @@ def test_format_response_no_flags(output_formatter):
         explanation="Displays current working directory.", flags=[], command="pwd"
     )
     expected_output = "Displays current working directory.\n\npwd"
-    assert output_formatter.format_response(ai_response) == expected_output
+    assert output_formatter.format_response(ai_response, enable_color=False) == expected_output
 
 
 def test_format_response_empty_command(output_formatter):
@@ -53,7 +53,7 @@ def test_format_response_empty_command(output_formatter):
         "\n"
         ""
     )
-    assert output_formatter.format_response(ai_response) == expected_output
+    assert output_formatter.format_response(ai_response, enable_color=False) == expected_output
 
 
 def test_format_response_long_explanation(output_formatter):
@@ -70,7 +70,7 @@ def test_format_response_long_explanation(output_formatter):
         "\n"
         "complex_command --option"
     )
-    assert output_formatter.format_response(ai_response) == expected_output
+    assert output_formatter.format_response(ai_response, enable_color=False) == expected_output
 
 
 def test_format_response_special_characters(output_formatter):
@@ -94,7 +94,7 @@ def test_format_response_special_characters(output_formatter):
         "\n"
         "cp 'file name (1).txt' /tmp/new_dir"
     )
-    assert output_formatter.format_response(ai_response) == expected_output
+    assert output_formatter.format_response(ai_response, enable_color=False) == expected_output
 
 
 def test_format_response_empty_explanation(output_formatter):
@@ -104,7 +104,7 @@ def test_format_response_empty_explanation(output_formatter):
     flags = [Flag(flag="-v", description="Verbose output")]
     ai_response = AICommandResponse(explanation="", flags=flags, command="echo hello")
     expected_output = "\n\n-v: Verbose output\n\necho hello"
-    assert output_formatter.format_response(ai_response) == expected_output
+    assert output_formatter.format_response(ai_response, enable_color=False) == expected_output
 
 
 def test_format_response_empty_flags_and_explanation(output_formatter):
@@ -113,4 +113,4 @@ def test_format_response_empty_flags_and_explanation(output_formatter):
     """
     ai_response = AICommandResponse(explanation="", flags=[], command="just_a_command")
     expected_output = "\n\njust_a_command"
-    assert output_formatter.format_response(ai_response) == expected_output
+    assert output_formatter.format_response(ai_response, enable_color=False) == expected_output

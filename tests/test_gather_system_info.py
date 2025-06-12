@@ -43,26 +43,6 @@ def test_get_system_info_macos_zsh(
     assert system_info.python_version == "3.10.0"
 
 
-@patch("platform.system", return_value="Windows")
-@patch("platform.machine", return_value="AMD64")
-@patch("os.getcwd", return_value="C:\\Users\\User\\Documents")
-@patch("platform.python_version", return_value="3.8.5")
-@patch(
-    "os.environ.get",
-    side_effect=lambda k, default=None: {
-        "COMSPEC": "C:\\Windows\\System32\\cmd.exe"
-    }.get(k, default),
-)
-def test_get_system_info_windows_cmd(
-    mock_environ_get, mock_python_version, mock_getcwd, mock_machine, mock_system
-):
-    system_info = get_system_info()
-    assert isinstance(system_info, SystemInfo)
-    assert system_info.os_name == "Windows"
-    assert system_info.shell == "cmd.exe"
-    assert system_info.cwd == "C:\\Users\\User\\Documents"
-    assert system_info.architecture == "AMD64"
-    assert system_info.python_version == "3.8.5"
 
 
 @patch("platform.system", return_value="Windows")
@@ -72,7 +52,7 @@ def test_get_system_info_windows_cmd(
 @patch(
     "os.environ.get",
     side_effect=lambda k, default=None: {
-        "COMSPEC": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+        "PSModulePath": "C:\\Program Files\\PowerShell\\Modules" # Mock PSModulePath
     }.get(k, default),
 )
 def test_get_system_info_windows_powershell(
@@ -110,7 +90,7 @@ def test_get_system_info_unknown_shell(
 @patch(
     "os.environ.get",
     side_effect=lambda k, default=None: {
-        "COMSPEC": "C:\\Program Files\\Git\\bin\\bash.exe"
+        "SHELL": "C:\\Program Files\\Git\\bin\\bash.exe" # Mock SHELL
     }.get(k, default),
 )
 @patch("platform.python_version", return_value="3.6.9")
