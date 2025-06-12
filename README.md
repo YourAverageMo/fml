@@ -1,5 +1,4 @@
 <!-- omit in toc -->
-
 # fml: AI-Powered CLI Command Helper
 
 - [Introduction](#introduction)
@@ -56,10 +55,10 @@ $ fml 'how do i rename the previous commit message'
 
 - Python 3.8+
 - `uv` (recommended for installation and dependency management)
-- An API key for your chosen AI model (e.g., `GEMINI_API_KEY` for Google Gemini. Used by default), set as an environment variable.
+- An API key for your chosen AI model (e.g., `GEMINI_API_KEY` for Google Gemini), set as an environment variable.
 - For Linux users, `xclip` or `xsel` is required for clipboard functionality.
 
-`fml` is designed for easy installation using `uv`, the recommended and officially supported method. If you dont have [uv](https://github.com/astral-sh/uv) get it... seriously. While other tools like `pipx` might function, they are not officially supported. for reference fml is registered on pypi as 'fml-ai'
+`fml` is designed for easy installation using `uv`, the recommended and officially supported method. If you don't have [uv](https://github.com/astral-sh/uv) get it... seriously. While other tools like `pipx` might function, they are not officially supported. For reference, `fml` is registered on PyPI as 'fml-ai'.
 
 To install `fml`, use the following command:
 
@@ -75,9 +74,12 @@ uv tool fml-ai
 
 ## Supported AI Models
 
-`fml` currently supports the following AI models:
+`fml` currently supports the following Google Gemini models:
 
-- gemini-1.5-flash
+- `gemini-2.5-flash-preview-05-20` (default)
+- `gemini-2.0-flash`
+- `gemini-2.0-flash-lite`
+- `gemini-1.5-flash`
 
 **Important:** You need to provide your own API key for the selected AI model as an environment variable (e.g., `GEMINI_API_KEY` for Google Gemini).
 
