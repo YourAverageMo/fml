@@ -1,5 +1,4 @@
 <!-- omit in toc -->
-
 # fml: AI-Powered CLI Command Helper
 
 - [Introduction](#introduction)
@@ -45,7 +44,8 @@ $ fml 'how do i rename the previous commit message'
 - **Automatic Clipboard Integration:** The generated command is automatically copied to your system clipboard, ready for immediate pasting and execution.
   > [!NOTE] Note for Linux users: This feature requires `xclip` or `xsel` to be installed on your system.
 - **AI Model Selection:** While currently supporting Google Gemini, `fml` is built with a modular architecture that allows for easy integration of future AI providers.
-- **User-Friendly Terminal Output:** Commands and explanations are displayed in a clean, readable format directly in your terminal, with optional color output for enhanced clarity.
+- **User-Friendly Terminal Output:** Commands and explanations are displayed in a clean, readable format directly in your terminal, with with optional color output for enhanced clarity.
+- **System Context Awareness:** `fml` gathers essential system information (operating system, current working directory, architecture, python version, and shell. see @gather_system_info.py) and provides it to the AI. This helps the AI generate more accurate and contextually relevant commands tailored to your specific environment.
 
 ## Installation
 
