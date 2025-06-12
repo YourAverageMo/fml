@@ -1,4 +1,5 @@
 <!-- omit in toc -->
+
 # fml: AI-Powered CLI Command Helper
 
 - [Introduction](#introduction)
@@ -25,6 +26,8 @@ $ fml 'how do I list all running docker containers, dont truncated, and show tot
 ```bash
 $ fml 'how do i rename the previous commit message'
 ```
+
+> [!NOTE] It is recommended to wrap query in single quotes to prevent shell expansion (unless thats what you want).
 
 `fml` is a simple tool to help you remember computer commands. You ask it a question, and it gives you the command you need, along with what it does and what its parts mean. _think tldr but with AI_
 
