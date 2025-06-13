@@ -22,9 +22,13 @@ Here are some examples of how to use `fml`:
 $ fml 'how do I list all running docker containers, dont truncated, and show total file size?'
 ```
 
+![1st-example](https://i.imgur.com/6VVfR77.gif)
+
 ```bash
 $ fml 'how do i rename the previous commit message'
 ```
+
+![2nd-example](https://i.imgur.com/zRtaN6v.gif)
 
 > [!NOTE] It is recommended to wrap query in single quotes to prevent shell expansion (unless thats what you want).
 
